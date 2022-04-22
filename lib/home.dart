@@ -1,6 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:assets_audio_player/src/playable.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 import 'package:music_tape/Pages/Refraction/nowplayingscreen.dart';
 import 'package:music_tape/Pages/albums.dart';
 import 'package:music_tape/Pages/favourites.dart';
@@ -19,7 +20,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final audioQuery = OnAudioQuery();
   final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer.withId('0');
+  
   int _currentSelectedIndex = 0;
+
   Audio find(List<Audio> source, String fromPath) {
     return source.firstWhere((element) => element.path == fromPath);
   }
@@ -45,77 +48,104 @@ class _HomeState extends State<Home> {
                       index: 0,
                       allsongs: widget.allsongs,
                     )));
-      }, child: SizedBox(
-        height: 60,
-        child: assetsAudioPlayer.builderCurrent(
-            builder: (BuildContext context, Playing? playing) {
-          final myAudio = find(widget.allsongs, playing!.audio.assetAudioPath);
+      }, child: assetsAudioPlayer.builderCurrent(
+          builder: (BuildContext context, Playing? playing) {
+        final myAudio = find(widget.allsongs, playing!.audio.assetAudioPath);
 
-          return Container(
-            height: 80,
-            color: Color.fromARGB(255, 218, 180, 236),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5.0), 
-                        child: QueryArtworkWidget(
-                            id: int.parse(myAudio.metas.id!),
-                            artworkBorder: BorderRadius.circular(5.0),
-                            type: ArtworkType.AUDIO),
-                      ),
+        return Container(
+          height: 80,
+          color: Color.fromARGB(255, 218, 180, 236),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 60,width: 60,
+                    decoration: BoxDecoration(  borderRadius: BorderRadius.circular(5.0), ),
+                      child: QueryArtworkWidget(
+                          id: int.parse(myAudio.metas.id!),
+                          artworkBorder: BorderRadius.circular(5.0),
+                          type: ArtworkType.AUDIO),
                     ),
-                    Text(
-                       myAudio.metas.artist!,
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-                Wrap(
-                  spacing: 15.0,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                   IconButton(
-                        onPressed: () {
-                          assetsAudioPlayer.previous();
-                        },
-                        icon: const Icon(Icons.skip_previous)
-                      ),
-                      PlayerBuilder.isPlaying(
-                          player: assetsAudioPlayer,
-                          builder: (context, isPlaying) {
-                            return IconButton(
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(height:20,width: 180,
+                        child: Marquee(
+                          velocity: 20,
+                          startAfter: Duration.zero,
+                          blankSpace: 100,
+                          text:
+                             myAudio.metas.title!,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      SizedBox(height:20,width: 180,
+                        child: Marquee(
+                          
+                          
+                          startAfter: Duration.zero,
+                          blankSpace: 150,
+                          velocity: 20,
+                          text:
+                             myAudio.metas.artist!,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                    ],
+                  ),
+                    
+                  
+                ],
+              ),
+              SizedBox(width: 50,),
+              Wrap(
+                spacing: 15.0,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                 IconButton(
+                      onPressed: () {
+                        assetsAudioPlayer.previous();
+                      },
+                      icon: const Icon(Icons.skip_previous,size: 35,)
+                    ),
+                    PlayerBuilder.isPlaying(
+                        player: assetsAudioPlayer,
+                        builder: (context, isPlaying) {
+                          return Container(
+                            height: 50,width: 50,
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),color: Colors.white),
+                            child: IconButton(
                               onPressed: () async {
                                 await assetsAudioPlayer.playOrPause();
                               },
                               icon: Icon(
                                 isPlaying
                                     ? Icons.pause
-                                    : Icons.play_arrow,
+                                    : Icons.play_arrow,size: 35,
                               ),
-                            );
-                          }),
-                      GestureDetector(
-                        child: IconButton(
-                          onPressed: () {
-                            assetsAudioPlayer.next();
-                          },
-                          icon: const Icon(Icons.skip_next),
-                        ),
+                            ),
+                          );
+                        }),
+                    GestureDetector(
+                      child: IconButton(
+                        onPressed: () {
+                          assetsAudioPlayer.next();
+                        },
+                        icon: const Icon(Icons.skip_next,size: 35,),
                       ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }),
-      )),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        );
+      })),
       body: _widgetOptions.elementAt(_currentSelectedIndex),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(

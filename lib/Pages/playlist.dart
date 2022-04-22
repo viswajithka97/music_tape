@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:music_tape/Pages/Refraction/drawer.dart';
 import 'package:music_tape/Pages/Refraction/playlisttile.dart';
+import 'package:on_audio_query_platform_interface/details/on_audio_query_helper.dart';
 
 class playlist extends StatelessWidget {
   const playlist({Key? key}) : super(key: key);
@@ -8,6 +9,7 @@ class playlist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: drawer(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black, size: 35),
         title: Text(
@@ -18,9 +20,14 @@ class playlist extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search),
+          Padding(
+            padding: const EdgeInsets.only(right:18.0),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                
+                Icons.search),
+            ),
           )
         ],
       ),
@@ -49,7 +56,8 @@ class playlist extends StatelessWidget {
                 iconcolor: Colors.red,
                 iconsize: 30.0,
                 titletext: 'My Favourites',
-                subtitle: '50 Songs'),
+                subtitle: '50 Songs',
+                trailingicon: Icons.more_vert_outlined),
             PlaylistTile(
                 leadingicon: Icons.filter_none_outlined,
                 iconcolor: Colors.black,
@@ -73,14 +81,17 @@ class playlist extends StatelessWidget {
                 iconcolor: Colors.black,
                 iconsize: 30.0,
                 titletext: 'My Playlist',
-                subtitle: '25 Songs'),
+                subtitle: '25 Songs',
+                trailingicon: Icons.more_vert_outlined),
           ],
         ),
       ),
     );
   }
 
-  Future<void> addplaylistbutton(BuildContext context) async {
+  
+}
+Future<void> addplaylistbutton(BuildContext context,) async {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -109,4 +120,3 @@ class playlist extends StatelessWidget {
           // );
         });
   }
-}

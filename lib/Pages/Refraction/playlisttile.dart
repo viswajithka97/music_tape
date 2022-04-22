@@ -6,13 +6,17 @@ class PlaylistTile extends StatelessWidget {
   final iconsize;
   final titletext;
   final subtitle;
+  final trailingicon;
 
   PlaylistTile(
-      {required this.leadingicon,
+      {
+        required this.leadingicon,
       required this.iconcolor,
       required this.iconsize,
       required this.titletext,
-      required this.subtitle});
+      required this.subtitle,
+       this.trailingicon,
+       });
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,7 @@ class PlaylistTile extends StatelessWidget {
       title: Text(titletext),
       subtitle: Text(subtitle),
       trailing: PopupMenuButton(
-        icon: Icon(Icons
-            .more_vert_outlined), //don't specify icon if you want 3 dot menu
+        icon: Icon(trailingicon), //don't specify icon if you want 3 dot menu
         // color: Colors.blue,
         itemBuilder: (context) => [
           PopupMenuItem(

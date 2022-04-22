@@ -60,10 +60,14 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                     SizedBox(
                       height: 60,
                     ),
-                      QueryArtworkWidget(
-                        id: int.parse(myAudio.metas.id!),
+                      Container(
+                        height: 400,width:double.infinity,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                        child: QueryArtworkWidget(
+                          id: int.parse(myAudio.metas.id!),
                     artworkBorder: BorderRadius.circular(5.0),
                      type: ArtworkType.AUDIO),
+                      ),
                     SizedBox(
                       height: 50,
                     ),
@@ -143,7 +147,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                               icon: Icon(
                                 isPlaying
                                     ? Icons.pause
-                                    : Icons.play_arrow,
+                                    : Icons.play_arrow,size: 50,
                               ),
                             );
                           }),
@@ -154,7 +158,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       },
                       icon:
                           Icon(Icons.skip_next, size: 40, color: Colors.white)),
-                  // Icon(Icons.skip_next, size: 45, color: Colors.white),
+
                   IconButton(
                       onPressed: () {},
                       icon: Icon(

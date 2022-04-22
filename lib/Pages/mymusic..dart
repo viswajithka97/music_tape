@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:music_tape/Pages/Refraction/drawer.dart';
 
 import 'package:music_tape/Pages/openplayer.dart';
+import 'package:music_tape/Pages/playlist.dart';
 
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -108,7 +109,8 @@ class _MyMusicState extends State<MyMusic> {
                         .more_vert_outlined), //don't specify icon if you want 3 dot menu
                     // color: Colors.blue,
                     itemBuilder: (context) => [
-                      const PopupMenuItem(
+                      PopupMenuItem(
+                        onTap: () {},
                         value: 0,
                         child: Text(
                           "Add to Playlist",
@@ -123,7 +125,82 @@ class _MyMusicState extends State<MyMusic> {
                         ),
                       ),
                     ],
-                    onSelected: (item) => {print(item)},
+                    onSelected: (item) => {
+                      if (item == 0)
+                        {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Playlist'),
+                                  content: Container(
+                                      height: 400,
+                                      width: double.minPositive,
+                                      child: Column(
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(
+                                              Icons.add,
+                                              color: Colors.blue,
+                                            ),
+                                            title: Text(
+                                              'Create New Playlist',
+                                              style:
+                                                  TextStyle(color: Colors.blue),
+                                            ),
+                                            onTap: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title:
+                                                          Text('Playlist Name'),
+                                                      content: TextFormField(),
+                                                      actions: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: Text(
+                                                                    'Cancel')),
+                                                            TextButton(
+                                                                onPressed:
+                                                                    () {},
+                                                                child: Text(
+                                                                    'Save')),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    );
+                                                  });
+                                            },
+                                          ),
+                                          Expanded(
+                                            child: ListView.builder(
+                                                itemCount: 30,
+                                                itemBuilder: (context, index) {
+                                                  return ListTile(
+                                                    leading: Icon(
+                                                        Icons.playlist_add),
+                                                    title: Text('My Playlist'),
+                                                    onTap: () {},
+                                                  );
+                                                }),
+                                          ),
+                                        ],
+                                      )),
+                                );
+                              })
+                        }
+                    },
                   ),
                 ),
               ),
@@ -133,5 +210,9 @@ class _MyMusicState extends State<MyMusic> {
         },
       ),
     );
+  }
+
+  void addplaylist() {
+    // PlaylistModel()
   }
 }
