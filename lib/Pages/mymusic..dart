@@ -4,14 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:music_tape/Pages/Refraction/drawer.dart';
+import 'package:music_tape/Pages/Refraction/popupmenu.dart';
+import 'package:music_tape/Pages/createplaylist.dart';
 
-import 'package:music_tape/Pages/openplayer.dart';
-import 'package:music_tape/Pages/playlist.dart';
+import 'package:music_tape/player/openplayer.dart';
+
 
 import 'package:on_audio_query/on_audio_query.dart';
 
 class MyMusic extends StatefulWidget {
-  List<Audio> fullsongs;
+  List<Audio> fullsongs=[];
   MyMusic({
     Key? key,
     required this.fullsongs,
@@ -23,8 +25,6 @@ class MyMusic extends StatefulWidget {
 }
 
 class _MyMusicState extends State<MyMusic> {
-  final AssetsAudioPlayer _player = AssetsAudioPlayer();
-
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
   List<SongModel> songs = [];
@@ -32,11 +32,6 @@ class _MyMusicState extends State<MyMusic> {
   @override
   initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer.withId('0');
@@ -48,16 +43,21 @@ class _MyMusicState extends State<MyMusic> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 214, 165, 236),
-      drawer: drawer(),
+    //  drawer: drawer(),
       appBar: AppBar(
+        
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: Colors.black, size: 35),
         title: Text(
           'Music Tape',
           style: TextStyle(fontSize: 25, color: Colors.black),
         ),
+
         centerTitle: true,
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () => Scaffold.of(context).openDrawer(),),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
@@ -99,120 +99,22 @@ class _MyMusicState extends State<MyMusic> {
                     );
                   }),
                   leading: QueryArtworkWidget(
-                      id: item.data![index].id,
+                      id: int.parse(
+                                  widget.fullsongs[index].metas.id.toString()),
                       artworkBorder: BorderRadius.circular(5.0),
                       type: ArtworkType.AUDIO),
-                  title: Text(item.data![index].displayNameWOExt),
-                  subtitle: Text('${item.data![index].artist}'),
-                  trailing: PopupMenuButton(
-                    icon: Icon(Icons
-                        .more_vert_outlined), //don't specify icon if you want 3 dot menu
-                    // color: Colors.blue,
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        onTap: () {},
-                        value: 0,
-                        child: Text(
-                          "Add to Playlist",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      const PopupMenuItem(
-                        value: 1,
-                        child: Text(
-                          "Add to Favourites",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ],
-                    onSelected: (item) => {
-                      if (item == 0)
-                        {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Playlist'),
-                                  content: Container(
-                                      height: 400,
-                                      width: double.minPositive,
-                                      child: Column(
-                                        children: [
-                                          ListTile(
-                                            leading: Icon(
-                                              Icons.add,
-                                              color: Colors.blue,
-                                            ),
-                                            title: Text(
-                                              'Create New Playlist',
-                                              style:
-                                                  TextStyle(color: Colors.blue),
-                                            ),
-                                            onTap: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title:
-                                                          Text('Playlist Name'),
-                                                      content: TextFormField(),
-                                                      actions: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: Text(
-                                                                    'Cancel')),
-                                                            TextButton(
-                                                                onPressed:
-                                                                    () {},
-                                                                child: Text(
-                                                                    'Save')),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    );
-                                                  });
-                                            },
-                                          ),
-                                          Expanded(
-                                            child: ListView.builder(
-                                                itemCount: 30,
-                                                itemBuilder: (context, index) {
-                                                  return ListTile(
-                                                    leading: Icon(
-                                                        Icons.playlist_add),
-                                                    title: Text('My Playlist'),
-                                                    onTap: () {},
-                                                  );
-                                                }),
-                                          ),
-                                        ],
-                                      )),
-                                );
-                              })
-                        }
-                    },
-                  ),
-                ),
+                  title: Text(widget.fullsongs[index].metas.title!,),
+                  subtitle: Text(widget.fullsongs[index].metas.artist!,),
+                   trailing: MusicListMenu(songId: widget.fullsongs[index].metas.id.toString())
               ),
+              )
             ),
-            itemCount: item.data!.length,
+            itemCount: widget.fullsongs.length,
           );
         },
       ),
     );
   }
 
-  void addplaylist() {
-    // PlaylistModel()
-  }
+
 }

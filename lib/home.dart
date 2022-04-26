@@ -2,11 +2,13 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:assets_audio_player/src/playable.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:music_tape/Pages/Refraction/nowplayingscreen.dart';
+import 'package:music_tape/Pages/Refraction/drawer.dart';
+import 'package:music_tape/player/nowplayingscreen.dart';
 import 'package:music_tape/Pages/albums.dart';
 import 'package:music_tape/Pages/favourites.dart';
 import 'package:music_tape/Pages/mymusic..dart';
-import 'package:music_tape/Pages/playlist.dart';
+
+import 'package:music_tape/playlistpage.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class Home extends StatefulWidget {
@@ -35,10 +37,11 @@ class _HomeState extends State<Home> {
         fullsongs: widget.allsongs,
       ),
       Albums(),
-      playlist(),
+      PlaylistPage(),
       Favourites(),
     ];
     return Scaffold(
+      drawer: drawer(),
       bottomSheet: GestureDetector(
         onTap: () {
         Navigator.push(
@@ -46,7 +49,7 @@ class _HomeState extends State<Home> {
             MaterialPageRoute(
                 builder: (context) => NowPlayingScreen(
                       index: 0,
-                      allsongs: widget.allsongs,
+                      fullSongs: widget.allsongs,
                     )));
       }, child: assetsAudioPlayer.builderCurrent(
           builder: (BuildContext context, Playing? playing) {

@@ -3,6 +3,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:music_tape/home.dart';
+import 'package:music_tape/Database/playlist_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class splashScreen extends StatefulWidget {
@@ -20,11 +21,14 @@ class _splashScreenState extends State<splashScreen> {
     super.initState();
   }
 
-  final OnAudioQuery _audioQuery = OnAudioQuery();
+  final _audioQuery = OnAudioQuery();
+  final box = Playlistbox.getInstance();
 
   List<Audio> fullSongs = [];
   List<SongModel> fetchedSongs = [];
   List<SongModel> allSongs = [];
+  List<Playlistmodel> dbSongs = [];
+  List<Playlistmodel> mappedSongs = [];
 
   requestStoragePermission() async {
     bool permissionStatus = await _audioQuery.permissionsStatus();
@@ -40,18 +44,32 @@ class _splashScreenState extends State<splashScreen> {
         allSongs.add(element);
       }
     }
+    mappedSongs = allSongs
+        .map(
+          (audio) => Playlistmodel(
+              songname: audio.title, 
+              artist: audio.artist,
+              songurl: audio.uri,
+              duration: audio.duration,
+              id: audio.id),
+        )
+        .toList();
 
-    for (var element in allSongs) {
+    await box.put("musics", mappedSongs);
+    dbSongs = box.get("musics") as List<Playlistmodel>;
+
+    for (var element in dbSongs) {
       fullSongs.add(
         Audio.file(
-          element.uri.toString(),
+          element.songurl.toString(),
           metas: Metas(
-              title: element.title,
+              title: element.songname,
               id: element.id.toString(),
-              artist: element.artist),
+              artist: element.songurl),
         ),
       );
     }
+    setState(() {});
   }
 
   @override

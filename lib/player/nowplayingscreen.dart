@@ -6,11 +6,11 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class NowPlayingScreen extends StatefulWidget {
   int index;
-  List<Audio> allsongs = [];
+  List<Audio> fullSongs = [];
   NowPlayingScreen({
     Key? key,
     required this.index,
-    required this.allsongs,
+    required this.fullSongs,
 
   }) : super(key: key);
  
@@ -49,7 +49,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         ],
       ),
       body: player.builderCurrent(builder: (context, Playing? playing) {
-        final myAudio = find(widget.allsongs, playing!.audio.assetAudioPath);
+        final myAudio = find(widget.fullSongs, playing!.audio.assetAudioPath);
         return Center(
           child: Column(
             children: [
