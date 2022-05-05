@@ -43,7 +43,7 @@ class _createPlaylistState extends State<createPlaylist> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel')),
+                child: Text('Cancel',style: TextStyle(color: Colors.black),)),
             TextButton(
                 onPressed: () {
                   if (formkey.currentState!.validate()) {
@@ -52,7 +52,7 @@ class _createPlaylistState extends State<createPlaylist> {
                     setState(() {});
                   }
                 },
-                child: Text('Save')),
+                child: Text('Save',style: TextStyle(color: Colors.black),)),
           ],
         ),
       ],

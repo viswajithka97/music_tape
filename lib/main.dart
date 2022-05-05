@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_tape/Database/playlist_model.dart';
+import 'package:music_tape/database/playlist_model.dart';
+
 import 'package:music_tape/splash_screen.dart';
 
 Future<void> main() async {
@@ -10,8 +11,19 @@ Future<void> main() async {
 
   Hive.registerAdapter(PlaylistmodelAdapter());
 
-  await Hive
-    .openBox<List>(boxname);
+  await Hive.openBox<List>(boxname);
+
+  final box = Playlistbox.getInstance();
+
+  List<dynamic> favKeys = box.keys.toList();
+  
+
+  if (!(favKeys.contains("favourites"))) {
+
+    List<dynamic> likedSongs = [];
+
+    await box.put("favourites", likedSongs);
+  }
 
   runApp(MyApp());
 }

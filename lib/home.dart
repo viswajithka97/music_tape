@@ -36,7 +36,9 @@ class _HomeState extends State<Home> {
       MyMusic(
         fullsongs: widget.allsongs,
       ),
-      Albums(),
+      Albums(
+         fullsongs: widget.allsongs,
+      ),
       PlaylistPage(),
       Favourites(),
     ];
@@ -71,6 +73,7 @@ class _HomeState extends State<Home> {
                       height: 60,width: 60,
                     decoration: BoxDecoration(  borderRadius: BorderRadius.circular(5.0), ),
                       child: QueryArtworkWidget(
+                           nullArtworkWidget: Icon(Icons.music_note_outlined,size: 50,),
                           id: int.parse(myAudio.metas.id!),
                           artworkBorder: BorderRadius.circular(5.0),
                           type: ArtworkType.AUDIO),

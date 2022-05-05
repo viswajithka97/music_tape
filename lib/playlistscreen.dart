@@ -1,10 +1,10 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_tape/Pages/Refraction/playlistscreenaddsongs.dart';
+import 'package:music_tape/database/playlist_model.dart';
 import 'package:music_tape/player/nowplayingscreen.dart';
-import 'package:music_tape/Pages/Refraction/popupmenu.dart';
 import 'package:music_tape/player/openplayer.dart';
-import 'package:music_tape/Database/playlist_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class PlaylistScreen extends StatefulWidget {
@@ -25,21 +25,33 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 214, 165, 236),
       appBar: AppBar(
-        title: Text(widget.playlistName),
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          widget.playlistName,
+          style: const TextStyle(color: Colors.black),
+        ),
         actions: [
           IconButton(
+              padding: const EdgeInsets.only(right: 20),
               onPressed: () {
                 showModalBottomSheet(
+                    backgroundColor: const Color.fromARGB(255, 214, 165, 236),
                     context: context,
                     builder: (context) {
-                      return Container(
-                          height: double.infinity,
-                          color: Colors.green,
-                          child: Text('data'));
+                      return SongSheet(
+                        playlistName: widget.playlistName,
+                      );
                     });
               },
-              icon: Icon(Icons.add))
+              icon: const Icon(
+                Icons.add,
+                color: Colors.black,
+                size: 30,
+              ))
         ],
       ),
       body: SafeArea(
@@ -51,11 +63,15 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   builder: (context, value, child) {
                     var playlistSongs = box.get(widget.playlistName)!;
                     return playlistSongs.isEmpty
-                        ? Container(
-                            height: 30,
-                            width: 60,
-                            child: Center(
-                              child: Text('Add Some Songs'),
+                        ? Center(
+                            child: Container(
+                              height: 50,
+                              width: 100,
+                              child: const Text(
+                                'Add Some Songs',
+                                style: TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           )
                         : ListView.builder(
@@ -70,25 +86,18 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(15),
-                                              color: Color.fromARGB(
+                                              color: const Color.fromARGB(
                                                   255, 227, 194, 233)),
                                           child: ListTile(
-                                            // onTap: (() async {
-                                            //   await OpenPlayer(fullSongs: [], index: index)
-                                            //       .openAssetPlayer(
-                                            //     index: index,
-                                            //     songs: widget.,
-                                            //   );
-                                            // }),
                                             leading: QueryArtworkWidget(
-                                                id: playlistSongs[index].id!,
+                                                id: playlistSongs[index].id,
                                                 artworkBorder:
                                                     BorderRadius.circular(5.0),
                                                 type: ArtworkType.AUDIO),
                                             title: Text(
-                                                playlistSongs[index].songname!),
+                                                playlistSongs[index].songname),
                                             subtitle: Text(
-                                                playlistSongs[index].artist!),
+                                                playlistSongs[index].artist),
                                             trailing: PopupMenuButton(
                                               itemBuilder:
                                                   (BuildContext context) => [
@@ -110,32 +119,37 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                 }
                                               },
                                             ),
-                                             onTap: () {
-                            for (var element in playlistSongs) {
-                              playPlaylist.add(
-                                Audio.file(
-                                  element.songurl!,
-                                  metas: Metas(
-                                    title: element.songname,
-                                    id: element.id.toString(),
-                                    artist: element.artist,
-                                  ),
-                                ),
-                              );
-                            }
-                            OpenPlayer(fullSongs: playPlaylist, index: index)
-                                .openAssetPlayer(
-                                    index: index, songs: playPlaylist);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NowPlayingScreen(
-                                  fullSongs: playPlaylist,
-                                  index: index,
-                                ),
-                              ),
-                            );
-                          },
+                                            onTap: () {
+                                              for (var element
+                                                  in playlistSongs) {
+                                                playPlaylist.add(
+                                                  Audio.file(
+                                                    element.songurl!,
+                                                    metas: Metas(
+                                                      title: element.songname,
+                                                      id: element.id.toString(),
+                                                      artist: element.artist,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                              OpenPlayer(
+                                                      fullSongs: playPlaylist,
+                                                      index: index)
+                                                  .openAssetPlayer(
+                                                      index: index,
+                                                      songs: playPlaylist);
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NowPlayingScreen(
+                                                    fullSongs: playPlaylist,
+                                                    index: index,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ))),
                                 ));
                   }))

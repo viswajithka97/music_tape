@@ -1,9 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:music_tape/database/playlist_model.dart';
 import 'package:music_tape/home.dart';
-import 'package:music_tape/Database/playlist_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class splashScreen extends StatefulWidget {
@@ -47,7 +45,7 @@ class _splashScreenState extends State<splashScreen> {
     mappedSongs = allSongs
         .map(
           (audio) => Playlistmodel(
-              songname: audio.title, 
+              songname: audio.title,
               artist: audio.artist,
               songurl: audio.uri,
               duration: audio.duration,
@@ -65,7 +63,7 @@ class _splashScreenState extends State<splashScreen> {
           metas: Metas(
               title: element.songname,
               id: element.id.toString(),
-              artist: element.songurl),
+              artist: element.artist),
         ),
       );
     }
@@ -75,29 +73,29 @@ class _splashScreenState extends State<splashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 207, 128, 221),
+      backgroundColor: const Color.fromARGB(255, 207, 128, 221),
       body: SafeArea(
           child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Music Tape',
               style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
               child: Image.asset('asset/images/splash.png'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               'Feel the Music',
               style: TextStyle(fontSize: 30, color: Colors.white),
             )

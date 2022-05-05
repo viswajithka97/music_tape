@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_tape/Pages/Refraction/drawer.dart';
+import 'package:music_tape/Pages/Refraction/editPlaylistName.dart';
+
 import 'package:music_tape/Pages/Refraction/playlisttile.dart';
 import 'package:music_tape/Pages/createplaylist.dart';
 import 'package:music_tape/Pages/customplaylist.dart';
-import 'package:music_tape/Database/playlist_model.dart';
+import 'package:music_tape/database/playlist_model.dart';
 import 'package:music_tape/playlistscreen.dart';
-import 'package:on_audio_query_platform_interface/details/on_audio_query_helper.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({Key? key}) : super(key: key);
@@ -19,12 +19,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
   final box = Playlistbox.getInstance();
   List playlists = [];
   String? playlistName = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: drawer(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black, size: 35),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
         title: Text(
           'Playlist',
           style: TextStyle(fontSize: 25, color: Colors.black),
@@ -32,15 +36,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 18.0),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.search),
-            ),
-          )
-        ],
       ),
       backgroundColor: Color.fromARGB(255, 214, 165, 236),
       body: SafeArea(
@@ -83,13 +78,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 iconsize: 30.0,
                 titletext: 'Most Played',
                 subtitle: '40 Songs'),
-            // PlaylistTile(
-            //     leadingicon: Icons.playlist_add,
-            //     iconcolor: Colors.black,
-            //     iconsize: 30.0,
-            //     titletext: 'My Playlist',
-            //     subtitle: '25 Songs',
-            //     trailingicon: Icons.more_vert_outlined),
             Expanded(
                 child: ValueListenableBuilder(
                     valueListenable: box.listenable(),
@@ -99,7 +87,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
                           itemCount: playlists.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              child: playlists[index] != "musics"
+                              child: playlists[index] != "musics" &&
+                                      playlists[index] != "favourites"
                                   ? CustomPlayList(
                                       titleNew: playlists[index].toString(),
                                       leadingNew: Icons.queue_music,
@@ -126,23 +115,75 @@ class _PlaylistPageState extends State<PlaylistPage> {
                                         ],
                                         onSelected: (value) {
                                           if (value == "0") {
-                                            box.delete(playlists[index]);
-                                            setState(() {
-                                              playlists = box.keys.toList();
-                                            });
+                                            showDialog(
+                                                context: context,
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    AlertDialog(
+                                                      title: Text(
+                                                          'Do You Want to Delete'),
+                                                      actions: [
+                                                        TextButton.icon(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.cancel,
+                                                              size: 20,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            label: Text(
+                                                                'Cancel',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 20,
+                                                                  color: Colors
+                                                                      .black,
+                                                                ))),
+                                                        TextButton.icon(
+                                                            onPressed: () {
+                                                              box.delete(
+                                                                  playlists[
+                                                                      index]);
+                                                              setState(() {
+                                                                playlists = box
+                                                                    .keys
+                                                                    .toList();
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.check,
+                                                              size: 20,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            label: Text('Ok',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 20,
+                                                                  color: Colors
+                                                                      .black,
+                                                                )))
+                                                      ],
+                                                    ));
                                           }
                                           if (value == "1") {
-                                            // showDialog(
-                                            //   context: context,
-                                            //   builder: (context) => EditPlaylist(
-                                            //     playlistName: playlists[index],
-                                            //   ),
-                                            // );
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => EditPlaylist(
+                                                playlistName: playlists[index],
+                                              ),
+                                            );
                                           }
                                         },
                                       ),
                                       ontapNew: () {
-                                        Navigator.of(context).push(
+                                        Navigator.push(
+                                            context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     PlaylistScreen(

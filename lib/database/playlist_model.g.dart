@@ -17,7 +17,7 @@ class PlaylistmodelAdapter extends TypeAdapter<Playlistmodel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Playlistmodel(
-        songname: fields[0] as String?,
+      songname: fields[0] as String?,
       artist: fields[1] as String?,
       songurl: fields[2] as String?,
       duration: fields[3] as int?,
@@ -27,7 +27,18 @@ class PlaylistmodelAdapter extends TypeAdapter<Playlistmodel> {
 
   @override
   void write(BinaryWriter writer, Playlistmodel obj) {
-    writer.writeByte(0);
+    writer
+      ..writeByte(5)
+      ..writeByte(0)
+      ..write(obj.songname)
+      ..writeByte(1)
+      ..write(obj.artist)
+      ..writeByte(2)
+      ..write(obj.songurl)
+      ..writeByte(3)
+      ..write(obj.duration)
+      ..writeByte(4)
+      ..write(obj.id);
   }
 
   @override

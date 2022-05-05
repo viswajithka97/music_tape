@@ -28,13 +28,13 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   assets_audio_player: ^3.0.4+1
+  audio_video_progress_bar: ^0.10.0
   better_player: ^0.0.81
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
   hive: ^2.1.0
   hive_flutter: ^1.1.0
-  just_audio: ^0.9.20
   marquee: ^2.2.1
   miniplayer: ^1.0.1
   on_audio_query: ^2.6.0
