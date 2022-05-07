@@ -1,8 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:music_tape/database/playlist_model.dart';
+import 'package:music_tape/database/db_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SongSheet extends StatefulWidget {
   String playlistName;
@@ -13,10 +14,10 @@ class SongSheet extends StatefulWidget {
 }
 
 class _SongSheetState extends State<SongSheet> {
-  final box = Playlistbox.getInstance();
+  final box = Songbox.getInstance();
 
-  List<Playlistmodel> dbSongs = [];
-  List<Playlistmodel> playlistSongs = [];
+  List<Songmodel> dbSongs = [];
+  List<Songmodel> playlistSongs = [];
   @override
   void initState() {
     super.initState();
@@ -24,9 +25,9 @@ class _SongSheetState extends State<SongSheet> {
   }
 
   fullSongs() {
-    dbSongs = box.get("musics") as List<Playlistmodel>;
+    dbSongs = box.get("musics") as List<Songmodel>;
 
-    playlistSongs = box.get(widget.playlistName)!.cast<Playlistmodel>();
+    playlistSongs = box.get(widget.playlistName)!.cast<Songmodel>();
   }
 
   @override
@@ -38,8 +39,8 @@ class _SongSheetState extends State<SongSheet> {
           padding: const EdgeInsets.only(bottom: 10),
           child: ListTile(
             leading: SizedBox(
-              height: 50,
-              width: 50,
+              height: 50.h,
+              width: 50.w,
               child: QueryArtworkWidget(
                 id: dbSongs[index].id!,
                 type: ArtworkType.AUDIO,

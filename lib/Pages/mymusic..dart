@@ -1,14 +1,19 @@
+// ignore_for_file: file_names, implementation_imports
+
 import 'package:assets_audio_player/assets_audio_player.dart';
+// ignore: unnecessary_import
 import 'package:assets_audio_player/src/playable.dart';
 import 'package:flutter/material.dart';
-
 import 'package:music_tape/Pages/Refraction/popupmenu.dart';
 import 'package:music_tape/Pages/Refraction/search.dart';
+import 'package:music_tape/database/db_model.dart';
+import 'package:music_tape/home.dart';
 
 import 'package:music_tape/player/openplayer.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+// ignore: must_be_immutable
 class MyMusic extends StatefulWidget {
   List<Audio> fullsongs = [];
   MyMusic({
@@ -22,7 +27,15 @@ class MyMusic extends StatefulWidget {
 }
 
 class _MyMusicState extends State<MyMusic> {
-  final OnAudioQuery _audioQuery = OnAudioQuery();
+  final _audioQuery = OnAudioQuery();
+  final box = Songbox.getInstance();
+
+  List<Audio> fullSongs = [];
+  List<SongModel> fetchedSongs = [];
+  List<SongModel> allSongs = [];
+  List<Songmodel> dbSongs = [];
+  List<Songmodel> mappedSongs = [];
+  final OnAudioQuery audio = OnAudioQuery();
 
   List<SongModel> songs = [];
 
@@ -37,91 +50,161 @@ class _MyMusicState extends State<MyMusic> {
     return source.firstWhere((element) => element.path == fromPath);
   }
 
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 214, 165, 236),
-      //  drawer: drawer(),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.black, size: 35),
-        title: Text(
-          'Music Tape',
-          style: TextStyle(fontSize: 25, color: Colors.black),
+    return Container(
+      decoration:const BoxDecoration(
+        gradient: RadialGradient(
+          center: Alignment(0.6, -0.10),
+          colors: [
+             Color(0xFFAD78E1),
+             Color(0xFFB59CDA),
+             Color(0xFFC28ADC),
+             Color(0xFFAA8BE5),
+             Color(0xFFAD78E1),
+             Color(0xFFAB76E0),
+          ],
+          radius: 1.5,
+          focalRadius: 15.5,
         ),
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => Scaffold.of(context).openDrawer(),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: IconButton(onPressed: () {
-              print('object');
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>
-               Search(fullSongs: widget.fullsongs)
-              ));
-            //  Search(fullSongs: widget.fullsongs);
-            }, icon: Icon(Icons.search)),
-          )
-        ],
       ),
-      body: FutureBuilder<List<SongModel>>(
-        future: _audioQuery.querySongs(
-            sortType: null,
-            orderType: OrderType.ASC_OR_SMALLER,
-            uriType: UriType.EXTERNAL,
-            ignoreCase: true),
-        builder: (context, item) {
-          if (item.data == null) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (item.data!.isEmpty) {
-            return Center(child: Text('No Songs Found'));
-          }
-          return ListView.builder(
-            itemBuilder: (context, index) => Padding(
-                padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                child: Container(
-                  height: 75,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Color.fromARGB(255, 227, 194, 233)),
-                  child: ListTile(
-                      onTap: (() async {
-                        await OpenPlayer(fullSongs: [], index: index)
-                            .openAssetPlayer(
-                          index: index,
-                          songs: widget.fullsongs,
-                        );
-                      }),
-                      leading: QueryArtworkWidget(
-                          id: int.parse(
-                              widget.fullsongs[index].metas.id.toString()),
-                          artworkBorder: BorderRadius.circular(5.0),
-                          nullArtworkWidget: Icon(
-                            Icons.music_note_outlined,
-                            size: 50,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        //  drawer: drawer(),
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 146, 93, 199),
+          iconTheme: const IconThemeData(color: Colors.black, size: 35),
+          title: Text(
+            'Music Tape',
+            style: TextStyle(fontSize: 25.sp, color: Colors.black),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 20.0.w),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            Search(fullSongs: widget.fullsongs)));
+                  },
+                  icon: const Icon(Icons.search)),
+            )
+          ],
+        ),
+        body: FutureBuilder<List<SongModel>>(
+          future: _audioQuery.querySongs(
+              sortType: null,
+              orderType: OrderType.ASC_OR_SMALLER,
+              uriType: UriType.EXTERNAL,
+              ignoreCase: true),
+          builder: (context, item) {
+            if (item.data == null) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (item.data!.isEmpty) {
+              return const Center(child: Text('No Songs Found'));
+            }
+            return RefreshIndicator(
+              onRefresh: requestStoragePermission,
+              child: ListView.builder(
+                itemBuilder: (context, index) => Padding(
+                    padding:  EdgeInsets.only(
+                        top: 10.0.h, left: 10.0.w, right: 10.0.w),
+                    child: Container(
+                      height: 75.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: const Color.fromARGB(106, 217, 197, 218)),
+                      child: ListTile(
+                          onTap: (() async {
+                            await OpenPlayer(fullSongs: [], index: index)
+                                .openAssetPlayer(
+                              index: index,
+                              songs: widget.fullsongs,
+                            );
+                          }),
+                          leading: Container(                                                                                                                  
+                            child: QueryArtworkWidget(
+                                id: int.parse(
+                                    widget.fullsongs[index].metas.id.toString()),
+                                artworkBorder: BorderRadius.circular(5.0),
+
+                                nullArtworkWidget: Image.asset('asset/images/new3.png'),
+                                // artworkClipBehavior: clip,
+                                type: ArtworkType.AUDIO),
                           ),
-                          type: ArtworkType.AUDIO),
-                      title: Text(
-                        widget.fullsongs[index].metas.title!,
-                      ),
-                      subtitle: Text(
-                        widget.fullsongs[index].metas.artist!,
-                      ),
-                      trailing: MusicListMenu(
-                          songId: widget.fullsongs[index].metas.id.toString())),
-                )),
-            itemCount: widget.fullsongs.length,
-          );
-        },
+                          title: Text(
+                            widget.fullsongs[index].metas.title!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            widget.fullsongs[index].metas.artist!,
+                          ),
+                          trailing: MusicListMenu(
+                              songId:
+                                  widget.fullsongs[index].metas.id.toString())),
+                    )),
+                itemCount: widget.fullsongs.length,
+              ),
+            );
+          },
+        ),
       ),
     );
+  }
+
+  Future<void> requestStoragePermission() async {
+    bool permissionStatus = await _audioQuery.permissionsStatus();
+    if (!permissionStatus) {
+      await _audioQuery.permissionsRequest();
+    }
+    setState(() {});
+
+    fetchedSongs = await _audioQuery.querySongs();
+
+    for (var element in fetchedSongs) {
+      if (element.fileExtension == "mp3") {
+        allSongs.add(element);
+      }
+    }
+    mappedSongs = allSongs
+        .map(
+          (audio) => Songmodel(
+              songname: audio.title,
+              artist: audio.artist,
+              songurl: audio.uri,
+              duration: audio.duration,
+              id: audio.id),
+        )
+        .toList();
+
+    await box.put("musics", mappedSongs);
+    dbSongs = box.get("musics") as List<Songmodel>;
+
+    for (var element in dbSongs) {
+      fullSongs.add(
+        Audio.file(
+          element.songurl.toString(),
+          metas: Metas(
+              title: element.songname,
+              id: element.id.toString(),
+              artist: element.artist),
+        ),
+      );
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Home(allsongs: fullSongs)),
+          (route) => false);
+    }
+    setState(() {});
   }
 }

@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
-part 'playlist_model.g.dart';
+part 'db_model.g.dart';
 
 @HiveType(typeId: 0)
-class Playlistmodel {
-  Playlistmodel(
+class Songmodel {
+  Songmodel(
       {required this.songname,
       required this.artist,
       required this.songurl,
@@ -24,7 +24,7 @@ class Playlistmodel {
 
 String boxname = "songs";
 
-class Playlistbox {
+class Songbox {
   static Box<List>? _box;
 
   static Box<List> getInstance() {

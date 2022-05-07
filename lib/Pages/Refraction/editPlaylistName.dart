@@ -1,25 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:music_tape/database/playlist_model.dart';
 
+// ignore_for_file: file_names
+
+import 'package:flutter/material.dart';
+import 'package:music_tape/database/db_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+// ignore: must_be_immutable
 class EditPlaylist extends StatelessWidget {
   EditPlaylist({Key? key, required this.playlistName}) : super(key: key);
   final String playlistName;
-  final _box = Playlistbox.getInstance();
+  final _box = Songbox.getInstance();
   String? _title;
   final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      // shape: Border.all(
-      //   width: 1,
-      //   color: Colors.white,
-      // ),
-      // backgroundColor: Colors.black,
+     
       title: Text(
               "Edit your playlist name.",
               style: TextStyle(
-                // color: Colors.black,
-                fontSize: 18,
+              
+                fontSize: 18.h.w,
               ),
             ),
       content: Column(
@@ -27,25 +28,25 @@ class EditPlaylist extends StatelessWidget {
         children: [
           
           Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-              left: 10,
-              right: 10,
-              bottom: 10,
+            padding:  EdgeInsets.only(
+              top: 10.h,
+              left: 10.w,
+              right: 10.w,
+              bottom: 10.h,
             ),
             child: Form(
               key: formkey,
               child: TextFormField(
                 initialValue: playlistName,
-                cursorHeight: 25,
+                cursorHeight: 25.h,
                 decoration: const InputDecoration(
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
-                style: const TextStyle(
+                style:  TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 20.h.w,
                 ),
                 onChanged: (value) {
                   _title = value.trim();
@@ -69,21 +70,21 @@ class EditPlaylist extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 15.0,
-                    right: 15,
-                    top: 5,
+                  padding:  EdgeInsets.only(
+                    left: 15.0.w,
+                    right: 15.w,
+                    top: 5.h,
                   ),
                   child: TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Center(
+                    child:  Center(
                       child: Text(
                         "Cancel",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 15,
+                          fontSize: 15.sp,
                        
                         ),
                       ),
@@ -93,9 +94,9 @@ class EditPlaylist extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 15.0,
-                    right: 15,
+                  padding:  EdgeInsets.only(
+                    left: 15.0.w,
+                    right: 15.w,
                     top: 5,
                   ),
                   child: TextButton(
@@ -107,12 +108,12 @@ class EditPlaylist extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    child: const Center(
+                    child:  Center(
                       child: Text(
                         "Save",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 15,
+                          fontSize: 15.sp,
                          
                         ),
                       ),

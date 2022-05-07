@@ -1,9 +1,13 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:music_tape/database/playlist_model.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:music_tape/database/db_model.dart';
 import 'package:music_tape/home.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
+// ignore: camel_case_types
 class splashScreen extends StatefulWidget {
   const splashScreen({Key? key}) : super(key: key);
 
@@ -11,6 +15,7 @@ class splashScreen extends StatefulWidget {
   State<splashScreen> createState() => _splashScreenState();
 }
 
+// ignore: camel_case_types
 class _splashScreenState extends State<splashScreen> {
   @override
   void initState() {
@@ -20,13 +25,13 @@ class _splashScreenState extends State<splashScreen> {
   }
 
   final _audioQuery = OnAudioQuery();
-  final box = Playlistbox.getInstance();
+  final box = Songbox.getInstance();
 
   List<Audio> fullSongs = [];
   List<SongModel> fetchedSongs = [];
   List<SongModel> allSongs = [];
-  List<Playlistmodel> dbSongs = [];
-  List<Playlistmodel> mappedSongs = [];
+  List<Songmodel> dbSongs = [];
+  List<Songmodel> mappedSongs = [];
 
   requestStoragePermission() async {
     bool permissionStatus = await _audioQuery.permissionsStatus();
@@ -42,9 +47,10 @@ class _splashScreenState extends State<splashScreen> {
         allSongs.add(element);
       }
     }
+
     mappedSongs = allSongs
         .map(
-          (audio) => Playlistmodel(
+          (audio) => Songmodel(
               songname: audio.title,
               artist: audio.artist,
               songurl: audio.uri,
@@ -54,7 +60,7 @@ class _splashScreenState extends State<splashScreen> {
         .toList();
 
     await box.put("musics", mappedSongs);
-    dbSongs = box.get("musics") as List<Playlistmodel>;
+    dbSongs = box.get("musics") as List<Songmodel>;
 
     for (var element in dbSongs) {
       fullSongs.add(
@@ -72,36 +78,65 @@ class _splashScreenState extends State<splashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 207, 128, 221),
-      body: SafeArea(
-          child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Music Tape',
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: Image.asset('asset/images/splash.png'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              'Feel the Music',
-              style: TextStyle(fontSize: 30, color: Colors.white),
-            )
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: RadialGradient(
+          center: Alignment(0.6, -0.10),
+          colors: [
+            Color(0xFFAD78E1),
+            Color(0xFFB59CDA),
+            Color(0xFFC28ADC),
+            Color(0xFFAA8BE5),
+            Color(0xFFAD78E1),
+            Color(0xFFAB76E0),
           ],
+          radius: 1.5,
+          focalRadius: 15.5,
         ),
-      )),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                   SizedBox(
+                    height: 150.h,
+                  ),
+
+                   Text(
+                    'Music Tape',
+                    style: TextStyle(
+                        fontSize: 40.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                   SizedBox(
+                    height: 10.h,
+                  ),
+                  // ignore: avoid_unnecessary_containers
+                  Container(
+                    child: Image.asset('asset/images/splash.png'),
+                  ),
+                   SizedBox(
+                    height: 30.h,
+                  ),
+                   Text(
+                    'Feel the Music',
+                    style: TextStyle(fontSize: 30.sp, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            LoadingAnimationWidget.staggeredDotsWave(
+                color: Colors.white, size: 70.0.w.h)
+          ],
+        )),
+      ),
     );
   }
 

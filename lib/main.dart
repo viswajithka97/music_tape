@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_tape/database/playlist_model.dart';
+import 'package:music_tape/database/db_model.dart';
 
 import 'package:music_tape/splash_screen.dart';
 
@@ -9,23 +10,21 @@ Future<void> main() async {
 
   await Hive.initFlutter();
 
-  Hive.registerAdapter(PlaylistmodelAdapter());
+  Hive.registerAdapter(SongmodelAdapter());
 
   await Hive.openBox<List>(boxname);
 
-  final box = Playlistbox.getInstance();
+  final box = Songbox.getInstance();
 
   List<dynamic> favKeys = box.keys.toList();
-  
 
   if (!(favKeys.contains("favourites"))) {
-
     List<dynamic> likedSongs = [];
 
     await box.put("favourites", likedSongs);
   }
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,9 +32,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: splashScreen(),
-    );
+    return ScreenUtilInit(
+        designSize: const Size(490, 1064),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        useInheritedMediaQuery: true,
+        builder: (child) {
+          return const MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: splashScreen(),
+          );
+        });
   }
 }

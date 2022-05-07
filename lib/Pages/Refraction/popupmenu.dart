@@ -1,16 +1,17 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_tape/Pages/Refraction/playlistlist.dart';
+import 'package:music_tape/database/db_model.dart';
 
-import 'package:music_tape/database/playlist_model.dart';
-
+// ignore: must_be_immutable
 class MusicListMenu extends StatelessWidget {
   final String songId;
+
   MusicListMenu({Key? key, required this.songId}) : super(key: key);
 
-  final box = Playlistbox.getInstance();
+  final box = Songbox.getInstance();
 
-  List<Playlistmodel> dbSongs = [];
+  List<Songmodel> dbSongs = [];
   List<Audio> fullSongs = [];
 
   List playlists = [];
@@ -19,15 +20,14 @@ class MusicListMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dbSongs = box.get("musics") as List<Playlistmodel>;
+    dbSongs = box.get("musics") as List<Songmodel>;
 
     List? favourites = box.get("favourites");
 
     final temp = databaseSongs(dbSongs, songId);
 
     return PopupMenuButton(
-        icon: Icon(Icons
-            .more_vert_outlined), //don't specify icon if you want 3 dot menu
+        icon: const Icon(Icons.more_vert_outlined),
         itemBuilder: (BuildContext context) => [
               favourites!
                       .where((element) =>
@@ -48,7 +48,6 @@ class MusicListMenu extends StatelessWidget {
                       },
                       child: const Text(
                         "Add to Favourite",
-                        style: TextStyle(fontFamily: 'Poppins'),
                       ),
                     )
                   : PopupMenuItem(
@@ -60,13 +59,12 @@ class MusicListMenu extends StatelessWidget {
                           SnackBar(
                             content: Text(
                               temp.songname! + " Removed from Favourites",
-                              style: const TextStyle(fontFamily: 'Poppins'),
                             ),
                           ),
                         );
                       },
-                      child: Text('Remove From Favourites')),
-              PopupMenuItem(
+                      child: const Text('Remove From Favourites')),
+              const PopupMenuItem(
                 value: 1,
                 child: Text(
                   "Add to Playlist",
@@ -74,17 +72,19 @@ class MusicListMenu extends StatelessWidget {
                 ),
               ),
             ],
-        onSelected: (value) async {
+        onSelected: (value) {
           if (value == 1) {
             showDialog(
-              context: context,
-              builder: (BuildContext context) => PlaylistList(song: temp),
-            );
+                context: context,
+                builder: (BuildContext context) {
+                  return PlaylistList(song: temp);
+                });
           }
-        });
+        }
+        );
   }
 
-  Playlistmodel databaseSongs(List<Playlistmodel> songs, String id) {
+  Songmodel databaseSongs(List<Songmodel> songs, String id) {
     return songs.firstWhere(
       (element) => element.songurl.toString().contains(id),
     );

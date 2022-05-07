@@ -7,7 +7,7 @@
    <application
         android:label="music_tape"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/music">
         <activity
             android:name=".MainActivity"
             android:exported="true"

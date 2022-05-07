@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:music_tape/Database/playlist_model.dart';
-import 'package:on_audio_query/on_audio_query.dart';
+import 'package:music_tape/database/db_model.dart';
 
+// ignore: camel_case_types
 class createPlaylist extends StatefulWidget {
-createPlaylist({Key? key}) : super(key: key);
+  const createPlaylist({Key? key}) : super(key: key);
 
   @override
   State<createPlaylist> createState() => _createPlaylistState();
 }
 
+// ignore: camel_case_types
 class _createPlaylistState extends State<createPlaylist> {
-  List<Playlistmodel> playlists = [];
-  final box = Playlistbox.getInstance();
+  List<Songmodel> playlists = [];
+  final box = Songbox.getInstance();
   String? title;
   final formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Playlist Name'),
+      title: const Text('Playlist Name'),
       content: Form(
           key: formkey,
           child: TextFormField(
@@ -43,7 +45,10 @@ class _createPlaylistState extends State<createPlaylist> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel',style: TextStyle(color: Colors.black),)),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.black),
+                )),
             TextButton(
                 onPressed: () {
                   if (formkey.currentState!.validate()) {
@@ -52,7 +57,10 @@ class _createPlaylistState extends State<createPlaylist> {
                     setState(() {});
                   }
                 },
-                child: Text('Save',style: TextStyle(color: Colors.black),)),
+                child: const Text(
+                  'Save',
+                  style: TextStyle(color: Colors.black),
+                )),
           ],
         ),
       ],
