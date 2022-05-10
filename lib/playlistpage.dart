@@ -98,16 +98,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       borderRadius: BorderRadius.circular(15),
                       color: const Color.fromARGB(106, 217, 197, 218)),
                   child: ListTile(
-                    leading:const Icon(
+                    leading: const Icon(
                       Icons.audio_file,
                       color: Colors.black,
                       size: 30.0,
                     ),
-                    title:const Text('Recently Played',
-                   
+                    title: const Text(
+                      'Recently Played',
                     ),
-                    subtitle: Text('${recentplay!.length} Songs',
-                   
+                    subtitle: Text(
+                      '${recentplay!.length} Songs',
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(

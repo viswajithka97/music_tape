@@ -65,6 +65,9 @@ class drawer extends StatelessWidget {
                   context: context,
                   applicationName: 'Music_Tape',
                   applicationVersion: '1.0.1',
+                  applicationIcon: CircleAvatar(
+                    backgroundImage: AssetImage('asset/images/logo.png'),
+                  ),
                   children: [
                  const   Text(
                         'Music_ Tape is an Offline Music Player created by Viswajith K A'),

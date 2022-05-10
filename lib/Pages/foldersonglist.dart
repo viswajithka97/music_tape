@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_tape/database/db_model.dart';
 import 'package:music_tape/player/nowplayingscreen.dart';
@@ -19,6 +20,7 @@ List<dynamic> pathSongList = [];
 class _listPathSongsState extends State<listPathSongs> {
   @override
   Widget build(BuildContext context) {
+    List<Audio> foldersong = [];
     List<String> _getSplitPath = [];
     for (var i = 1; i < allSongs.length; i++) {
       String _path = allSongs[i].data.toString();
@@ -60,17 +62,31 @@ class _listPathSongsState extends State<listPathSongs> {
                           borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(106, 217, 197, 218)),
                       child: ListTile(
-                        title: GestureDetector(
-                            onTap: () {
-                              print(pathSongList.length);
-                              // OpenPlayer(fullSongs: fullSongs, index: pathSongList[index]);
-                              // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NowPlayingScreen(index: index, fullSongs:fullSongs)));
-                            },
-                            child: Text(pathSongList[index].title)),
+                        title: Text(pathSongList[index].title),
+                        onTap: () async{
+                          for (var element in pathSongList) {
+                            foldersong.add(Audio.file(
+                              element.uri!,
+                                metas: Metas(
+                                    title: element.title,
+                                    id: element.id.toString(),
+                                    artist: element.artist)));
+                            OpenPlayer(
+                                    fullSongs: foldersong,
+                                    index: index,
+                                    SongId:
+                                        foldersong[index].metas.id.toString())
+                                .openAssetPlayer(
+                                    index: index, songs: foldersong);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => NowPlayingScreen(
+                                    index: index, fullSongs: foldersong)));
+                          }
+                        },
                         leading: Container(
                           // decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)),color: Colors.white30,),
-                          height: 43,
-                          width: 43,
+                          height: 50.h,
+                          width: 50.w,
 
                           // color: Colors.grey,
                           child: QueryArtworkWidget(
@@ -86,6 +102,7 @@ class _listPathSongsState extends State<listPathSongs> {
                             type: ArtworkType.AUDIO,
                           ),
                         ),
+                        subtitle: Text(pathSongList[index].artist.toString()),
                       ),
                     ),
                   );

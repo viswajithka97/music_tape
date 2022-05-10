@@ -183,14 +183,14 @@ class _FolderslistState extends State<Folderslist> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          iconTheme:  IconThemeData(color: Colors.black, size: 35.h.w),
+          iconTheme: IconThemeData(color: Colors.black, size: 35.h.w),
           leading: IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
           title: Text(
             'Folders',
-            style: TextStyle(fontSize: 25.sp,color: Colors.black),
+            style: TextStyle(fontSize: 25.sp, color: Colors.black),
           ),
           centerTitle: true,
           backgroundColor: const Color.fromARGB(255, 146, 93, 199),

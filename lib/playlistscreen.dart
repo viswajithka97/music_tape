@@ -122,7 +122,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                               subtitle: Text(
-                                                  playlistSongs[index].artist),
+                                                  playlistSongs[index].artist,
+                                                  maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                  ),
                                               trailing: PopupMenuButton(
                                                 itemBuilder:
                                                     (BuildContext context) => [
