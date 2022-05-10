@@ -16,7 +16,7 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
-  List<Songmodel>? dbSongs = [];
+  // List<Songmodel>? dbSongs = [];
   List<Audio> playliked = [];
   final box = Songbox.getInstance();
   @override
@@ -40,12 +40,12 @@ class _FavouritesState extends State<Favourites> {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            iconTheme:const IconThemeData(color: Colors.black, size: 35),
+            iconTheme:  IconThemeData(color: Colors.black, size: 35.h.w),
             centerTitle: true,
             backgroundColor: const Color.fromARGB(255, 146, 93, 199),
             elevation: 0,
             leading: IconButton(
-              icon:const Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
             title: Text(
@@ -69,8 +69,10 @@ class _FavouritesState extends State<Favourites> {
                                       title: element.songname,
                                       id: element.id.toString(),
                                       artist: element.artist)));
+                                      
                             }
-                            OpenPlayer(fullSongs: playliked, index: index)
+                            OpenPlayer(fullSongs: playliked, index: index, SongId: playliked[index].metas.id.toString(),
+                            )
                                 .openAssetPlayer(
                                     index: index, songs: playliked);
 
@@ -88,7 +90,9 @@ class _FavouritesState extends State<Favourites> {
                             child: likedSongs[index] != "musics"
                                 ? Padding(
                                     padding: EdgeInsets.only(
-                                        top: 10.0.h, left: 10.0.w, right: 10.0.w),
+                                        top: 10.0.h,
+                                        left: 10.0.w,
+                                        right: 10.0.w),
                                     child: Container(
                                       height: 75.h,
                                       width: double.infinity,
@@ -98,30 +102,32 @@ class _FavouritesState extends State<Favourites> {
                                           color: const Color.fromARGB(
                                               106, 217, 197, 218)),
                                       child: ListTile(
-                                          title:
-                                              Text(likedSongs[index].songname),
+                                          title: Text(
+                                            likedSongs[index].songname,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                           subtitle:
                                               Text(likedSongs[index].artist),
-                                          leading: QueryArtworkWidget(
-                                            id: likedSongs[index].id!,
-                                            type: ArtworkType.AUDIO,
-                                            artworkBorder:
-                                                BorderRadius.circular(15),
-                                            artworkFit: BoxFit.cover,
-                                            // nullArtworkWidget: Container(
-                                            //   height: 50,
-                                            //   width: 50,
-                                            //   decoration: const BoxDecoration(
-                                            //     borderRadius:
-                                            //         BorderRadius.all(Radius.circular(15)),
-                                            //     image: DecorationImage(
-                                            //       image: AssetImage(
-                                            //           "assets/images/logodefault.jpg"),
-                                            //       fit: BoxFit.cover,
-                                            //     ),
-                                            //   ),
-                                            // ),
+                                          leading: Container(
+                                            height: 50.h,width: 50.w,
+                                            child: QueryArtworkWidget(
+                                              id: likedSongs[index].id!,
+                                              type: ArtworkType.AUDIO,
+                                              artworkBorder:
+                                                  BorderRadius.circular(5),
+                                              // artworkFit: BoxFit.cover,
+                                              nullArtworkWidget: 
+                                                  ClipRRect(borderRadius: BorderRadius.circular(5),
+                                                  child: Image.asset(
+                                                        "asset/images/new3.png"),
+                                                    
+                                                  
+                                                   ) ,
+                                                  ),
                                           ),
+                                            
+                                        
                                           trailing: MusicListMenu(
                                               songId: likedSongs[index]
                                                   .id

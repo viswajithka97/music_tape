@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:music_tape/Pages/Refraction/drawer.dart';
 import 'package:music_tape/player/nowplayingscreen.dart';
-import 'package:music_tape/Pages/albums.dart';
+import 'package:music_tape/Pages/folders.dart';
 import 'package:music_tape/Pages/favourites.dart';
 import 'package:music_tape/Pages/mymusic..dart';
 
@@ -40,14 +40,12 @@ class _HomeState extends State<Home> {
       MyMusic(
         fullsongs: widget.allsongs,
       ),
-      Albums(
-        fullsongs: widget.allsongs,
-      ),
-    const  PlaylistPage(),
-    const  Favourites(),
+      const Folderslist(),
+      const PlaylistPage(),
+      const Favourites(),
     ];
     return Scaffold(
-      drawer:const drawer(),
+      drawer: const drawer(),
       bottomSheet: GestureDetector(onTap: () {
         Navigator.push(
             context,
@@ -62,7 +60,7 @@ class _HomeState extends State<Home> {
 
         return Container(
           height: 80.h,
-          color:const Color.fromARGB(255, 191, 155, 230),
+          color: const Color.fromARGB(255, 191, 155, 230),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,10 +78,9 @@ class _HomeState extends State<Home> {
                       ),
                       child: QueryArtworkWidget(
                           // ignore: prefer_const_constructors
-                          nullArtworkWidget: Icon(
-                            Icons.music_note_outlined,
-                            size: 50.h.w,
-                          ),
+                          nullArtworkWidget: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.asset('asset/images/new3.png')),
                           id: int.parse(myAudio.metas.id!),
                           artworkBorder: BorderRadius.circular(5.0),
                           type: ArtworkType.AUDIO),
@@ -128,7 +125,7 @@ class _HomeState extends State<Home> {
                       onPressed: () {
                         assetsAudioPlayer.previous();
                       },
-                      icon:  Icon(
+                      icon: Icon(
                         Icons.skip_previous,
                         size: 35.w.h,
                       )),
@@ -157,7 +154,7 @@ class _HomeState extends State<Home> {
                       onPressed: () {
                         assetsAudioPlayer.next();
                       },
-                      icon:  Icon(
+                      icon: Icon(
                         Icons.skip_next,
                         size: 35.h.w,
                       ),
@@ -171,31 +168,28 @@ class _HomeState extends State<Home> {
       })),
       body: _widgetOptions.elementAt(_currentSelectedIndex),
       bottomNavigationBar: Container(
-         decoration:const BoxDecoration(
-      gradient: RadialGradient(
-        center: Alignment(0.6, -0.8),
-        colors: [
-          Color.fromARGB(255, 172, 120, 225),
-          Color.fromARGB(147, 181, 156, 218),
-          Color.fromARGB(164, 194, 138, 220),
-           Color(0xFFAA8BE5),
-           Color(0xFFAD78E1),
-           Color(0xFFAB76E0),
-        ],
-        radius: 100.5,
-        focalRadius: 0.5,
-      ),
-    ),
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0.6, -0.8),
+            colors: [
+              Color.fromARGB(255, 172, 120, 225),
+              Color.fromARGB(147, 181, 156, 218),
+              Color.fromARGB(164, 194, 138, 220),
+              Color(0xFFAA8BE5),
+              Color(0xFFAD78E1),
+              Color(0xFFAB76E0),
+            ],
+            radius: 100.5,
+            focalRadius: 0.5,
+          ),
+        ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            // canvasColor:   Color.fromARGB(255, 191, 156, 199),
-            canvasColor: Colors.transparent
-          ),
+              // canvasColor:   Color.fromARGB(255, 191, 156, 199),
+              canvasColor: Colors.transparent),
           child: BottomNavigationBar(
-            
-     
               selectedItemColor: Colors.black,
-              unselectedItemColor:const Color.fromARGB(175, 255, 255, 255),
+              unselectedItemColor: const Color.fromARGB(175, 255, 255, 255),
               currentIndex: _currentSelectedIndex,
               onTap: (newIndex) {
                 setState(() {
@@ -205,7 +199,8 @@ class _HomeState extends State<Home> {
               items: const [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.headphones), label: 'My Music'),
-                BottomNavigationBarItem(icon: Icon(Icons.album), label: 'Albums'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.album), label: 'Albums'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.playlist_add), label: 'Playlist'),
                 BottomNavigationBarItem(

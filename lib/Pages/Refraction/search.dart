@@ -153,7 +153,9 @@ class _SearchState extends State<Search> {
                                         onTap: () {
                                           OpenPlayer(
                                                   fullSongs: searchResult,
-                                                  index: index)
+                                                  index: index, SongId: widget.fullSongs[index].metas.id.toString(), 
+                                                  
+                                                  )
                                               .openAssetPlayer(
                                                   index: index,
                                                   songs: searchResult);

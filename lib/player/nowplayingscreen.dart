@@ -39,7 +39,6 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
   Widget build(BuildContext context) {
     dbSongs = box.get("musics") as List<Songmodel>;
 
-
     //final temp = databaseSongs(dbSongs, songId);
     return Container(
       decoration: const BoxDecoration(
@@ -75,7 +74,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon:  Icon(
+                icon: Icon(
                   Icons.keyboard_arrow_down_rounded,
                   size: 30.sp,
                   color: Colors.black,
@@ -96,7 +95,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                   padding: EdgeInsets.all(50.0.h.w),
                   child: Column(
                     children: [
-                       SizedBox(
+                      SizedBox(
                         height: 20.h,
                       ),
                       Container(
@@ -107,14 +106,17 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                         child: QueryArtworkWidget(
                             id: int.parse(myAudio.metas.id!),
                             artworkQuality: FilterQuality.high,
+                            quality: 100,
+                            size: 2000,
                             artworkFit: BoxFit.cover,
-                            artworkBorder: BorderRadius.circular(20.0),
-                            nullArtworkWidget: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                              child: Image.asset('asset/images/musicgif.gif')),
+                            artworkBorder: BorderRadius.circular(20.0.r),
+                            nullArtworkWidget: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.r),
+                                child:
+                                    Image.asset('asset/images/musicgif.gif')),
                             type: ArtworkType.AUDIO),
                       ),
-                       SizedBox(
+                      SizedBox(
                         height: 30.h,
                       ),
                       Row(
@@ -158,12 +160,12 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                             barHeight: 10.h,
                             thumbRadius: 15.h.w,
                             thumbColor: const Color.fromARGB(255, 126, 73, 150),
-                            timeLabelTextStyle: const TextStyle(
-                                color: Colors.black, fontSize: 17),
+                            timeLabelTextStyle:
+                                TextStyle(color: Colors.black, fontSize: 17.sp),
                             progress: infos.currentPosition,
                             total: infos.duration);
                       }),
-                       SizedBox(
+                      SizedBox(
                         height: 20.h,
                       ),
                       Row(
@@ -180,7 +182,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                           player.toggleShuffle();
                                         });
                                       },
-                                      icon:  Icon(
+                                      icon: Icon(
                                         Icons.shuffle,
                                         size: 35.w.h,
                                       ),
@@ -192,7 +194,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                           player.setLoopMode(LoopMode.playlist);
                                         });
                                       },
-                                      icon:  Icon(
+                                      icon: Icon(
                                         Icons.cached,
                                         size: 35.h.w,
                                       ),
@@ -230,7 +232,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                           likedSongs = box.get("favourites");
                                           setState(() {});
                                         },
-                                        icon:  Icon(
+                                        icon: Icon(
                                           Icons.favorite_border,
                                           size: 35.h.w,
                                         ),
@@ -253,10 +255,10 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                             );
                                           });
                                         },
-                                        icon:  Icon(
+                                        icon: Icon(
                                           Icons.favorite,
-                                          color:
-                                             const Color.fromARGB(255, 189, 69, 61),
+                                          color: const Color.fromARGB(
+                                              255, 189, 69, 61),
                                           size: 35.h.w,
                                         ),
                                       );
@@ -276,7 +278,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                           );
                                         });
                                       },
-                                      icon:  Icon(
+                                      icon: Icon(
                                         Icons.repeat,
                                         size: 35.h.w,
                                       ),

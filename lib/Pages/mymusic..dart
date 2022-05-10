@@ -53,16 +53,16 @@ class _MyMusicState extends State<MyMusic> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:const BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: RadialGradient(
           center: Alignment(0.6, -0.10),
           colors: [
-             Color(0xFFAD78E1),
-             Color(0xFFB59CDA),
-             Color(0xFFC28ADC),
-             Color(0xFFAA8BE5),
-             Color(0xFFAD78E1),
-             Color(0xFFAB76E0),
+            Color(0xFFAD78E1),
+            Color(0xFFB59CDA),
+            Color(0xFFC28ADC),
+            Color(0xFFAA8BE5),
+            Color(0xFFAD78E1),
+            Color(0xFFAB76E0),
           ],
           radius: 1.5,
           focalRadius: 15.5,
@@ -73,7 +73,7 @@ class _MyMusicState extends State<MyMusic> {
         //  drawer: drawer(),
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 146, 93, 199),
-          iconTheme: const IconThemeData(color: Colors.black, size: 35),
+          iconTheme: IconThemeData(color: Colors.black, size: 35.h.w),
           title: Text(
             'Music Tape',
             style: TextStyle(fontSize: 25.sp, color: Colors.black),
@@ -116,29 +116,45 @@ class _MyMusicState extends State<MyMusic> {
               onRefresh: requestStoragePermission,
               child: ListView.builder(
                 itemBuilder: (context, index) => Padding(
-                    padding:  EdgeInsets.only(
+                    padding: EdgeInsets.only(
                         top: 10.0.h, left: 10.0.w, right: 10.0.w),
                     child: Container(
                       height: 75.h,
-                      width: double.infinity,
+                      width: double.infinity.w,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(106, 217, 197, 218)),
                       child: ListTile(
+                          // visualDensity: VisualDensity(
+                          //   vertical: -3
+                          // ),
                           onTap: (() async {
-                            await OpenPlayer(fullSongs: [], index: index)
+                            final songid =
+                                widget.fullsongs[index].metas.id.toString();
+
+                            await OpenPlayer(
+                                    fullSongs: [], index: index, SongId: songid)
                                 .openAssetPlayer(
                               index: index,
                               songs: widget.fullsongs,
                             );
+                            print('after play');
                           }),
-                          leading: Container(                                                                                                                  
+                          // ignore: sized_box_for_whitespace
+                          leading: Container(
+                            height: 50.h,
+                            width: 50.w,
                             child: QueryArtworkWidget(
-                                id: int.parse(
-                                    widget.fullsongs[index].metas.id.toString()),
-                                artworkBorder: BorderRadius.circular(5.0),
-
-                                nullArtworkWidget: Image.asset('asset/images/new3.png'),
+                                // artworkBlendMode: BlendMode.clear,
+                                id: int.parse(widget.fullsongs[index].metas.id
+                                    .toString()),
+                                artworkBorder: BorderRadius.circular(5),
+                                quality: 100,
+                                artworkScale: 2000,
+                                nullArtworkWidget: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child:
+                                        Image.asset('asset/images/new3.png')),
                                 // artworkClipBehavior: clip,
                                 type: ArtworkType.AUDIO),
                           ),
@@ -149,6 +165,8 @@ class _MyMusicState extends State<MyMusic> {
                           ),
                           subtitle: Text(
                             widget.fullsongs[index].metas.artist!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           trailing: MusicListMenu(
                               songId:
@@ -206,5 +224,10 @@ class _MyMusicState extends State<MyMusic> {
           (route) => false);
     }
     setState(() {});
+  }
+
+  Songmodel findwatchlaterSongs(List<Songmodel> recently, String id) {
+    return recently
+        .firstWhere((element) => element.songurl.toString().contains(id));
   }
 }

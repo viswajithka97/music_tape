@@ -27,7 +27,9 @@ class MusicListMenu extends StatelessWidget {
     final temp = databaseSongs(dbSongs, songId);
 
     return PopupMenuButton(
-        icon: const Icon(Icons.more_vert_outlined),
+        icon: const Icon(
+          Icons.more_vert_outlined,
+        ),
         itemBuilder: (BuildContext context) => [
               favourites!
                       .where((element) =>
@@ -41,7 +43,6 @@ class MusicListMenu extends StatelessWidget {
                           SnackBar(
                             content: Text(
                               temp.songname! + " Added to Favourites",
-                              style: const TextStyle(fontFamily: 'Poppins'),
                             ),
                           ),
                         );
@@ -80,8 +81,7 @@ class MusicListMenu extends StatelessWidget {
                   return PlaylistList(song: temp);
                 });
           }
-        }
-        );
+        });
   }
 
   Songmodel databaseSongs(List<Songmodel> songs, String id) {

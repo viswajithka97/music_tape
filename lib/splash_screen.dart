@@ -14,6 +14,14 @@ class splashScreen extends StatefulWidget {
   @override
   State<splashScreen> createState() => _splashScreenState();
 }
+  List<Audio> fullSongs = [];
+  List<SongModel> fetchedSongs = [];
+  List<SongModel> allSongs = [];
+  List<Songmodel> dbSongs = [];
+  List<Songmodel> mappedSongs = [];
+  Set<String> gotPathset = {};
+  List<String> gotPath = [];
+
 
 // ignore: camel_case_types
 class _splashScreenState extends State<splashScreen> {
@@ -27,11 +35,7 @@ class _splashScreenState extends State<splashScreen> {
   final _audioQuery = OnAudioQuery();
   final box = Songbox.getInstance();
 
-  List<Audio> fullSongs = [];
-  List<SongModel> fetchedSongs = [];
-  List<SongModel> allSongs = [];
-  List<Songmodel> dbSongs = [];
-  List<Songmodel> mappedSongs = [];
+
 
   requestStoragePermission() async {
     bool permissionStatus = await _audioQuery.permissionsStatus();

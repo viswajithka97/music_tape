@@ -8,8 +8,6 @@ class PlaylistList extends StatelessWidget {
   PlaylistList({Key? key, required this.song}) : super(key: key);
   Songmodel song;
 
-
-
   List playlists = [];
 
   List<dynamic>? playlistSongs = [];
@@ -38,7 +36,8 @@ class PlaylistList extends StatelessWidget {
               ),
               onTap: () {
                 showDialog(
-                    context: context, builder: (context) =>  createPlaylist());
+                    context: context,
+                    builder: (context) => const createPlaylist());
               },
             ),
             ...playlists
@@ -50,15 +49,13 @@ class PlaylistList extends StatelessWidget {
                             List existingSongs = [];
                             existingSongs = playlistSongs!
                                 .where((element) =>
-                                    element.id.toString() ==
-                                    song.id.toString())
+                                    element.id.toString() == song.id.toString())
                                 .toList();
                             if (existingSongs.isEmpty) {
-                              final songs = box.get("musics")
-                                  as List<Songmodel>;
+                              final songs =
+                                  box.get("musics") as List<Songmodel>;
                               final temp = songs.firstWhere((element) =>
-                                  element.id.toString() ==
-                                  song.id.toString());
+                                  element.id.toString() == song.id.toString());
                               playlistSongs?.add(temp);
 
                               await box.put(audio, playlistSongs!);
@@ -67,8 +64,7 @@ class PlaylistList extends StatelessWidget {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content: Text(
-                                  song.songname! +
-                                      ' Added to Playlist',
+                                  song.songname! + ' Added to Playlist',
                                 ),
                               ));
                             } else {
@@ -76,8 +72,7 @@ class PlaylistList extends StatelessWidget {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    song.songname! +
-                                        ' is already in Playlist.',
+                                    song.songname! + ' is already in Playlist.',
                                   ),
                                 ),
                               );

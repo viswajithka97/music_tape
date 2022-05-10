@@ -23,6 +23,13 @@ Future<void> main() async {
 
     await box.put("favourites", likedSongs);
   }
+  List<dynamic> watchlaterKeys = box.keys.toList();
+
+  if (!(watchlaterKeys.contains("Recently_Played"))) {
+    List<dynamic> watchlater = [];
+
+    await box.put("Recently_Played", watchlater);
+  }
 
   runApp(const MyApp());
 }

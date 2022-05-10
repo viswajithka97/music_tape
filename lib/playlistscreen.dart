@@ -27,26 +27,26 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:const BoxDecoration(
-          gradient: RadialGradient(
+      decoration: const BoxDecoration(
+        gradient: RadialGradient(
           center: Alignment(0.6, -0.10),
           colors: [
-             Color(0xFFAD78E1),
-             Color(0xFFB59CDA),
-             Color(0xFFC28ADC),
-             Color(0xFFAA8BE5),
-             Color(0xFFAD78E1),
-             Color(0xFFAB76E0),
+            Color(0xFFAD78E1),
+            Color(0xFFB59CDA),
+            Color(0xFFC28ADC),
+            Color(0xFFAA8BE5),
+            Color(0xFFAD78E1),
+            Color(0xFFAB76E0),
           ],
           radius: 1.5,
           focalRadius: 15.5,
         ),
       ),
       child: Scaffold(
-        backgroundColor:  Colors.transparent,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor:const Color.fromARGB(255, 146, 93, 199),
+          backgroundColor: const Color.fromARGB(255, 146, 93, 199),
           elevation: 0,
           title: Text(
             widget.playlistName,
@@ -65,7 +65,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         );
                       });
                 },
-                icon:  Icon(
+                icon: Icon(
                   Icons.add,
                   color: Colors.black,
                   size: 30.h.w,
@@ -97,8 +97,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                               itemCount: playlistSongs.length,
                               itemBuilder: (context, index) => GestureDetector(
                                     child: Padding(
-                                        padding:  EdgeInsets.only(
-                                            top: 10.0.h, left: 10.0.w, right: 10.0.w),
+                                        padding: EdgeInsets.only(
+                                            top: 10.0.h,
+                                            left: 10.0.w,
+                                            right: 10.0.w),
                                         child: Container(
                                             height: 75.h,
                                             width: double.infinity,
@@ -106,15 +108,19 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 color: const Color.fromARGB(
-                                                    255, 227, 194, 233)),
+                                                    106, 217, 197, 218)),
                                             child: ListTile(
                                               leading: QueryArtworkWidget(
                                                   id: playlistSongs[index].id,
                                                   artworkBorder:
-                                                      BorderRadius.circular(5.0),
+                                                      BorderRadius.circular(
+                                                          5.0),
                                                   type: ArtworkType.AUDIO),
                                               title: Text(
-                                                  playlistSongs[index].songname),
+                                                playlistSongs[index].songname,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                               subtitle: Text(
                                                   playlistSongs[index].artist),
                                               trailing: PopupMenuButton(
@@ -132,7 +138,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                     setState(() {
                                                       playlistSongs
                                                           .removeAt(index);
-                                                      box.put(widget.playlistName,
+                                                      box.put(
+                                                          widget.playlistName,
                                                           playlistSongs);
                                                     });
                                                   }
@@ -146,7 +153,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                       element.songurl!,
                                                       metas: Metas(
                                                         title: element.songname,
-                                                        id: element.id.toString(),
+                                                        id: element.id
+                                                            .toString(),
                                                         artist: element.artist,
                                                       ),
                                                     ),
@@ -154,7 +162,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                 }
                                                 OpenPlayer(
                                                         fullSongs: playPlaylist,
-                                                        index: index)
+                                                        index: index, SongId: playPlaylist[index].metas.id.toString(),
+                                                        )
                                                     .openAssetPlayer(
                                                         index: index,
                                                         songs: playPlaylist);
