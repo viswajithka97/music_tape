@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
       ),
       const Folderslist(),
       const PlaylistPage(),
-      const Favourites(),
+       Favourites(),
     ];
     return Scaffold(
       drawer: const drawer(),
@@ -200,7 +200,7 @@ class _HomeState extends State<Home> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.headphones), label: 'My Music'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.album), label: 'Albums'),
+                    icon: Icon(Icons.folder), label: 'Folders'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.playlist_add), label: 'Playlist'),
                 BottomNavigationBarItem(

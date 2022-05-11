@@ -64,8 +64,8 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           title: Text(
             'Now Playing',
             style: TextStyle(
-                fontSize: 25.sp,
-                color: const Color.fromARGB(255, 255, 255, 255)),
+              fontSize: 25.sp,color: Colors.black
+            ),
           ),
           backgroundColor: const Color.fromARGB(255, 146, 93, 199),
           automaticallyImplyLeading: false,

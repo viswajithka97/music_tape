@@ -138,7 +138,7 @@ class _MyMusicState extends State<MyMusic> {
                               index: index,
                               songs: widget.fullsongs,
                             );
-                            print('after play');
+                           
                           }),
                           // ignore: sized_box_for_whitespace
                           leading: Container(

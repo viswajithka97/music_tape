@@ -82,12 +82,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   ),
                 ],
               ),
-              // PlaylistTile(
-              //     leadingicon: Icons.filter_none_outlined,
-              //     iconcolor: Colors.black,
-              //     iconsize: 30.0,
-              //     titletext: 'Recently Added',
-              //     subtitle: '20 Songs'),
+             
               Padding(
                 padding:
                     EdgeInsets.only(top: 10.0.h, left: 10.0.w, right: 10.0.w),
@@ -111,17 +106,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => RecentlyPlayed()));
+                          builder: (context) =>const RecentlyPlayed()));
                     },
                   ),
                 ),
               ),
-              // PlaylistTile(
-              //     leadingicon: Icons.audiotrack,
-              //     iconcolor: Colors.black,
-              //     iconsize: 30.0,
-              //     titletext: 'Most Played',
-              //     subtitle: '40 Songs'),
+              
               Expanded(
                   child: ValueListenableBuilder(
                       valueListenable: box.listenable(),

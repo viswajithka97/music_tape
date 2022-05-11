@@ -93,7 +93,7 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                             ],
                           ));
                 },
-                icon: Icon(Icons.delete))
+                icon: const Icon(Icons.delete))
           ],
         ),
         body: SafeArea(
@@ -152,6 +152,7 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ),
+                                        // ignore: sized_box_for_whitespace
                                         leading: Container(
                                           height: 50.h,
                                           width: 50.w,

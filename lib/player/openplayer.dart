@@ -5,12 +5,14 @@ class OpenPlayer {
   List<Audio> fullSongs;
   int index;
   bool? notify;
+  // ignore: non_constant_identifier_names
   final String SongId;
   final box = Songbox.getInstance();
 
   List<Songmodel> recentSongs = [];
 
   OpenPlayer(
+      // ignore: non_constant_identifier_names
       {required this.fullSongs, required this.index, required this.SongId});
 
   final AssetsAudioPlayer player = AssetsAudioPlayer.withId('0');
@@ -39,10 +41,7 @@ class OpenPlayer {
     recentplay!.where((element) => element.id.toString() == temp.id.toString()).isEmpty  ?
      addtorecent(recentplay,temp)
       :  null;
-    print('rrrrrrrrrrrrrrrrrrr${recentplay}rrrrrrrrrrrrr');
 
-    print('play');
-   
   }
 
   Songmodel findwatchlaterSongs(List<Songmodel> recently, String id) {

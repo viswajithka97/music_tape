@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_tape/Pages/Refraction/privacypolicy.dart';
+import 'package:music_tape/Pages/Refraction/terms&conditions.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,12 +11,12 @@ class drawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color.fromARGB(255, 171, 126, 180),
+      backgroundColor: const Color.fromARGB(255, 171, 126, 180),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           AppBar(
-            title:const Text(
+            title: const Text(
               'Music Tape',
               style: TextStyle(color: Colors.black),
             ),
@@ -35,26 +37,24 @@ class drawer extends StatelessWidget {
               size: 35.h.w,
             ),
             title: const Text('Version'),
-            subtitle:const Text('1.0.1'),
-            onTap: () {
-            
-            },
+            subtitle: const Text('1.0.1'),
           ),
           ListTile(
-            leading:const Icon(Icons.verified_user_outlined, size: 35),
+            leading: const Icon(Icons.verified_user_outlined, size: 35),
             title: const Text('Terms & Conditions'),
-            subtitle:const Text('All the Information you need to know'),
+            subtitle: const Text('All the Information you need to know'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const Terms_Conditions()));
             },
           ),
           ListTile(
             leading: Icon(Icons.privacy_tip_outlined, size: 35.h.w),
             title: const Text('Privacy Policy'),
-            subtitle:const Text('Important for both of us'),
+            subtitle: const Text('Important for both of us'),
             onTap: () {
-              
-              // Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const Privacy_Policy()));
             },
           ),
           ListTile(
@@ -65,11 +65,11 @@ class drawer extends StatelessWidget {
                   context: context,
                   applicationName: 'Music_Tape',
                   applicationVersion: '1.0.1',
-                  applicationIcon: CircleAvatar(
+                  applicationIcon: const CircleAvatar(
                     backgroundImage: AssetImage('asset/images/logo.png'),
                   ),
                   children: [
-                 const   Text(
+                    const Text(
                         'Music_ Tape is an Offline Music Player created by Viswajith K A'),
                   ]);
             },

@@ -7,6 +7,7 @@ import 'package:music_tape/splash_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// ignore: camel_case_types
 class listPathSongs extends StatefulWidget {
   final int index;
   const listPathSongs({Key? key, required this.index}) : super(key: key);
@@ -17,10 +18,11 @@ class listPathSongs extends StatefulWidget {
 
 List<dynamic> pathSongList = [];
 
+// ignore: camel_case_types
 class _listPathSongsState extends State<listPathSongs> {
   @override
   Widget build(BuildContext context) {
-    List<Audio> foldersong = [];
+    List<Audio>? foldersong = [];
     List<String> _getSplitPath = [];
     for (var i = 1; i < allSongs.length; i++) {
       String _path = allSongs[i].data.toString();
@@ -63,40 +65,40 @@ class _listPathSongsState extends State<listPathSongs> {
                           color: const Color.fromARGB(106, 217, 197, 218)),
                       child: ListTile(
                         title: Text(pathSongList[index].title),
-                        onTap: () async{
+                        onTap: () async {
                           for (var element in pathSongList) {
-                            foldersong.add(Audio.file(
-                              element.uri!,
+                            foldersong.add(Audio.file(element.uri!,
                                 metas: Metas(
                                     title: element.title,
                                     id: element.id.toString(),
                                     artist: element.artist)));
-                            OpenPlayer(
-                                    fullSongs: foldersong,
-                                    index: index,
-                                    SongId:
-                                        foldersong[index].metas.id.toString())
-                                .openAssetPlayer(
-                                    index: index, songs: foldersong);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => NowPlayingScreen(
-                                    index: index, fullSongs: foldersong)));
+                                    // print(foldersong);
+                                 
+                            // OpenPlayer(
+                            //         fullSongs: foldersong,
+                            //         index: index,
+                            //         SongId:
+                            //             foldersong[index].metas.id.toString())
+                            //     .openAssetPlayer(
+                            //         index: index, songs: foldersong);
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (context) => NowPlayingScreen(
+                            //         index: index, fullSongs: foldersong)));
                           }
+                          
                         },
+                        // ignore: sized_box_for_whitespace
                         leading: Container(
-                          // decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)),color: Colors.white30,),
                           height: 50.h,
                           width: 50.w,
-
-                          // color: Colors.grey,
                           child: QueryArtworkWidget(
-                            artworkBorder: BorderRadius.all(Radius.circular(7)),
-                            // artworkClipBehavior: Clip.antiAliasWithSaveLayer,
+                            artworkBorder:
+                                const BorderRadius.all(Radius.circular(7)),
                             artworkFit: BoxFit.fill,
                             nullArtworkWidget: ClipRRect(
                                 child: Image.asset(
                               'asset/images/new3.png',
-                              color: Colors.white30,
+                              
                             )),
                             id: int.parse(pathSongList[index].id.toString()),
                             type: ArtworkType.AUDIO,

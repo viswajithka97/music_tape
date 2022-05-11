@@ -1,6 +1,8 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_tape/Pages/Refraction/favouriteaddbutton.dart';
+import 'package:music_tape/Pages/Refraction/playlistscreenaddsongs.dart';
 import 'package:music_tape/Pages/Refraction/popupmenu.dart';
 import 'package:music_tape/database/db_model.dart';
 import 'package:music_tape/player/nowplayingscreen.dart';
@@ -9,14 +11,13 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Favourites extends StatefulWidget {
-  const Favourites({Key? key}) : super(key: key);
+  Favourites({Key? key}) : super(key: key);
 
   @override
   State<Favourites> createState() => _FavouritesState();
 }
 
 class _FavouritesState extends State<Favourites> {
-  // List<Songmodel>? dbSongs = [];
   List<Audio> playliked = [];
   final box = Songbox.getInstance();
   @override
@@ -40,7 +41,7 @@ class _FavouritesState extends State<Favourites> {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            iconTheme:  IconThemeData(color: Colors.black, size: 35.h.w),
+            iconTheme: IconThemeData(color: Colors.black, size: 35.h.w),
             centerTitle: true,
             backgroundColor: const Color.fromARGB(255, 146, 93, 199),
             elevation: 0,
@@ -52,6 +53,22 @@ class _FavouritesState extends State<Favourites> {
               'Favourites',
               style: TextStyle(fontSize: 25.sp, color: Colors.black),
             ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 20.0.w),
+                child: IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          backgroundColor:
+                              const Color.fromARGB(255, 214, 165, 236),
+                          context: context,
+                          builder: (context) {
+                            return FavouriteAddSong();
+                          });
+                    },
+                    icon: const Icon(Icons.add)),
+              )
+            ],
           ),
           body: SafeArea(
               child: ValueListenableBuilder(
@@ -69,12 +86,12 @@ class _FavouritesState extends State<Favourites> {
                                       title: element.songname,
                                       id: element.id.toString(),
                                       artist: element.artist)));
-                                      
                             }
-                            OpenPlayer(fullSongs: playliked, index: index, SongId: playliked[index].metas.id.toString(),
-                            )
-                                .openAssetPlayer(
-                                    index: index, songs: playliked);
+                            OpenPlayer(
+                              fullSongs: playliked,
+                              index: index,
+                              SongId: playliked[index].metas.id.toString(),
+                            ).openAssetPlayer(index: index, songs: playliked);
 
                             Navigator.push(
                               context,
@@ -107,27 +124,29 @@ class _FavouritesState extends State<Favourites> {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          subtitle:
-                                              Text(likedSongs[index].artist),
+                                          subtitle: Text(
+                                            likedSongs[index].artist,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          // ignore: sized_box_for_whitespace
                                           leading: Container(
-                                            height: 50.h,width: 50.w,
+                                            height: 50.h,
+                                            width: 50.w,
                                             child: QueryArtworkWidget(
                                               id: likedSongs[index].id!,
                                               type: ArtworkType.AUDIO,
                                               artworkBorder:
                                                   BorderRadius.circular(5),
                                               // artworkFit: BoxFit.cover,
-                                              nullArtworkWidget: 
-                                                  ClipRRect(borderRadius: BorderRadius.circular(5),
-                                                  child: Image.asset(
-                                                        "asset/images/new3.png"),
-                                                    
-                                                  
-                                                   ) ,
-                                                  ),
+                                              nullArtworkWidget: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                child: Image.asset(
+                                                    "asset/images/new3.png"),
+                                              ),
+                                            ),
                                           ),
-                                            
-                                        
                                           trailing: MusicListMenu(
                                               songId: likedSongs[index]
                                                   .id

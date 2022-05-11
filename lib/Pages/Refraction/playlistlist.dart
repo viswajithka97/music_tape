@@ -42,7 +42,7 @@ class PlaylistList extends StatelessWidget {
             ),
             ...playlists
                 .map(
-                  (audio) => audio != "musics" && audio != "favourites"
+                  (audio) => audio != "musics" && audio != "favourites" && audio != "Recently_Played"
                       ? ListTile(
                           onTap: () async {
                             playlistSongs = box.get(audio);

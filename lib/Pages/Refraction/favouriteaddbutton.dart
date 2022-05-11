@@ -5,15 +5,15 @@ import 'package:music_tape/database/db_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SongSheet extends StatefulWidget {
-  String playlistName;
-  SongSheet({Key? key, required this.playlistName}) : super(key: key);
+class FavouriteAddSong extends StatefulWidget {
+  
+ const FavouriteAddSong({Key? key,}) : super(key: key);
 
   @override
-  State<SongSheet> createState() => _SongSheetState();
+  State<FavouriteAddSong> createState() => _FavouriteAddSongState();
 }
 
-class _SongSheetState extends State<SongSheet> {
+class _FavouriteAddSongState extends State<FavouriteAddSong> {
   final box = Songbox.getInstance();
 
   List<Songmodel> dbSongs = [];
@@ -27,14 +27,16 @@ class _SongSheetState extends State<SongSheet> {
   fullSongs() {
     dbSongs = box.get("musics") as List<Songmodel>;
 
-    playlistSongs = box.get(widget.playlistName)!.cast<Songmodel>();
+   
   }
 
   @override
   Widget build(BuildContext context) {
+    var likedSongs = box.get("favourites");
     return ListView.builder(
       itemCount: dbSongs.length,
       itemBuilder: (context, index) {
+        
         return Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: ListTile(
@@ -69,14 +71,14 @@ class _SongSheetState extends State<SongSheet> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: playlistSongs
+            trailing: likedSongs!
                     .where((element) =>
                         element.id.toString() == dbSongs[index].id.toString())
                     .isEmpty
                 ? IconButton(
                     onPressed: () async {
-                      playlistSongs.add(dbSongs[index]);
-                      await box.put(widget.playlistName, playlistSongs);
+                     likedSongs.add(dbSongs[index]);
+                      await box.put('favourites', likedSongs);
 
                       setState(() {});
                     },
@@ -86,10 +88,10 @@ class _SongSheetState extends State<SongSheet> {
                     ))
                 : IconButton(
                     onPressed: () async {
-                      playlistSongs.removeWhere((elemet) =>
+                      likedSongs.removeWhere((elemet) =>
                           elemet.id.toString() == dbSongs[index].id.toString());
 
-                      await box.put(widget.playlistName, playlistSongs);
+                      await box.put('favourites', likedSongs);
                       setState(() {});
                     },
                     icon: const Icon(Icons.check_box, color: Colors.black),
