@@ -5,9 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:music_tape/Pages/createplaylist.dart';
 import 'package:music_tape/Pages/customplaylist.dart';
 import 'package:music_tape/database/db_model.dart';
-import 'package:music_tape/playlistscreen.dart';
-import 'package:music_tape/recentlyplayed.dart';
-import 'package:on_audio_query/on_audio_query.dart';
+import 'package:music_tape/Pages/playlistscreen.dart';
+import 'package:music_tape/Pages/recentlyplayed.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class PlaylistPage extends StatefulWidget {
 class _PlaylistPageState extends State<PlaylistPage> {
   final box = Songbox.getInstance();
   List playlists = [];
-  List<PlaylistModel>? playlistSongs = [];
+  List<Songmodel>? playlistSongs = [];
 
   String? playlistName = '';
 
@@ -82,7 +81,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   ),
                 ],
               ),
-             
               Padding(
                 padding:
                     EdgeInsets.only(top: 10.0.h, left: 10.0.w, right: 10.0.w),
@@ -93,6 +91,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       borderRadius: BorderRadius.circular(15),
                       color: const Color.fromARGB(106, 217, 197, 218)),
                   child: ListTile(
+                    visualDensity: const VisualDensity(vertical: -3),
                     leading: const Icon(
                       Icons.audio_file,
                       color: Colors.black,
@@ -106,12 +105,11 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>const RecentlyPlayed()));
+                          builder: (context) => const RecentlyPlayed()));
                     },
                   ),
                 ),
               ),
-              
               Expanded(
                   child: ValueListenableBuilder(
                       valueListenable: box.listenable(),

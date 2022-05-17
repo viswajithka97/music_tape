@@ -2,7 +2,6 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_tape/Pages/Refraction/favouriteaddbutton.dart';
-import 'package:music_tape/Pages/Refraction/playlistscreenaddsongs.dart';
 import 'package:music_tape/Pages/Refraction/popupmenu.dart';
 import 'package:music_tape/database/db_model.dart';
 import 'package:music_tape/player/nowplayingscreen.dart';
@@ -11,7 +10,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Favourites extends StatefulWidget {
-  Favourites({Key? key}) : super(key: key);
+  const Favourites({Key? key}) : super(key: key);
 
   @override
   State<Favourites> createState() => _FavouritesState();
@@ -63,7 +62,7 @@ class _FavouritesState extends State<Favourites> {
                               const Color.fromARGB(255, 214, 165, 236),
                           context: context,
                           builder: (context) {
-                            return FavouriteAddSong();
+                            return const FavouriteAddSong();
                           });
                     },
                     icon: const Icon(Icons.add)),
@@ -119,6 +118,7 @@ class _FavouritesState extends State<Favourites> {
                                           color: const Color.fromARGB(
                                               106, 217, 197, 218)),
                                       child: ListTile(
+                                        visualDensity: const VisualDensity(vertical: -3),
                                           title: Text(
                                             likedSongs[index].songname,
                                             maxLines: 1,

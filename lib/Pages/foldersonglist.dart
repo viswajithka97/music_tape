@@ -1,8 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:music_tape/database/db_model.dart';
-import 'package:music_tape/player/nowplayingscreen.dart';
-import 'package:music_tape/player/openplayer.dart';
 import 'package:music_tape/splash_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,7 +61,7 @@ class _listPathSongsState extends State<listPathSongs> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(106, 217, 197, 218)),
-                      child: ListTile(
+                      child: ListTile(visualDensity: const VisualDensity(vertical: -3),
                         title: Text(pathSongList[index].title),
                         onTap: () async {
                           for (var element in pathSongList) {

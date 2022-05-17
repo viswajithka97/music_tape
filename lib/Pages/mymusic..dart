@@ -125,9 +125,9 @@ class _MyMusicState extends State<MyMusic> {
                           borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(106, 217, 197, 218)),
                       child: ListTile(
-                          // visualDensity: VisualDensity(
-                          //   vertical: -3
-                          // ),
+                          visualDensity: VisualDensity(
+                            vertical: -3
+                          ),
                           onTap: (() async {
                             final songid =
                                 widget.fullsongs[index].metas.id.toString();

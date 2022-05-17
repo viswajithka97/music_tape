@@ -15,6 +15,7 @@ class FavouriteList extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             color:const Color.fromARGB(255, 227, 194, 233)),
         child: ListTile(
+          visualDensity: const VisualDensity(vertical: -3),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(5.0), 
             // ignore: sized_box_for_whitespace

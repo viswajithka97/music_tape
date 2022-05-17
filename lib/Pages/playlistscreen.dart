@@ -20,8 +20,8 @@ class PlaylistScreen extends StatefulWidget {
 class _PlaylistScreenState extends State<PlaylistScreen> {
   final box = Songbox.getInstance();
 
-  List<PlaylistModel>? dbSongs = [];
-  List<PlaylistModel>? playlistSongs = [];
+  List<Songmodel>? dbSongs = [];
+  List<Songmodel>? playlistSongs = [];
   List<Audio> playPlaylist = [];
 
   @override
@@ -110,6 +110,9 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                 color: const Color.fromARGB(
                                                     106, 217, 197, 218)),
                                             child: ListTile(
+                                              visualDensity:
+                                                  const VisualDensity(
+                                                      vertical: -3),
                                               leading: QueryArtworkWidget(
                                                   id: playlistSongs[index].id,
                                                   artworkBorder:
@@ -122,10 +125,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                               subtitle: Text(
-                                                  playlistSongs[index].artist,
-                                                  maxLines: 1,
+                                                playlistSongs[index].artist,
+                                                maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
-                                                  ),
+                                              ),
                                               trailing: PopupMenuButton(
                                                 itemBuilder:
                                                     (BuildContext context) => [
@@ -164,12 +167,15 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                   );
                                                 }
                                                 OpenPlayer(
-                                                        fullSongs: playPlaylist,
-                                                        index: index, SongId: playPlaylist[index].metas.id.toString(),
-                                                        )
-                                                    .openAssetPlayer(
-                                                        index: index,
-                                                        songs: playPlaylist);
+                                                  fullSongs: playPlaylist,
+                                                  index: index,
+                                                  SongId: playPlaylist[index]
+                                                      .metas
+                                                      .id
+                                                      .toString(),
+                                                ).openAssetPlayer(
+                                                    index: index,
+                                                    songs: playPlaylist);
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(

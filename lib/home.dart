@@ -11,7 +11,7 @@ import 'package:music_tape/Pages/folders.dart';
 import 'package:music_tape/Pages/favourites.dart';
 import 'package:music_tape/Pages/mymusic..dart';
 
-import 'package:music_tape/playlistpage.dart';
+import 'package:music_tape/Pages/playlistpage.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
       ),
       const Folderslist(),
       const PlaylistPage(),
-       Favourites(),
+       const Favourites(),
     ];
     return Scaffold(
       drawer: const drawer(),

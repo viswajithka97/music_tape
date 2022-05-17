@@ -28,7 +28,7 @@ class _createPlaylistState extends State<createPlaylist> {
             },
             validator: (value) {
               List keys = box.keys.toList();
-              if (value!.trim() == "") {
+              if (value!.trim() == "") { 
                 return "Name Required";
               }
               if (keys.where((element) => element == value.trim()).isNotEmpty) {
