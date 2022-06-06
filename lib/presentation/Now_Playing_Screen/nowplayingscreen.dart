@@ -1,13 +1,15 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:music_tape/application/FavIcon/favicon_bloc.dart';
 import 'package:music_tape/core/db_model.dart';
 import 'package:music_tape/presentation/Playlist/playlistlist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable
-class NowPlayingScreen extends StatefulWidget {
+class NowPlayingScreen extends StatelessWidget {
   int index;
   List<Audio> fullSongs = [];
   NowPlayingScreen({
@@ -17,26 +19,21 @@ class NowPlayingScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<NowPlayingScreen> createState() => _NowPlayingScreenState();
-}
-
-class _NowPlayingScreenState extends State<NowPlayingScreen> {
-  bool isPlaying = false;
-  bool isLooping = false;
-  bool isShuffle = false;
-  Songmodel? music;
-
-  final AssetsAudioPlayer player = AssetsAudioPlayer.withId('0');
-
-  Audio find(List<Audio> source, String fromPath) {
-    return source.firstWhere((element) => element.path == fromPath);
-  }
-
-  final box = Songbox.getInstance();
-  List<Songmodel> dbSongs = [];
-  List<dynamic>? likedSongs = [];
-  @override
   Widget build(BuildContext context) {
+    bool isPlaying = false;
+    bool isLooping = false;
+    bool isShuffle = false;
+    Songmodel? music;
+
+    final AssetsAudioPlayer player = AssetsAudioPlayer.withId('0');
+
+    Audio find(List<Audio> source, String fromPath) {
+      return source.firstWhere((element) => element.path == fromPath);
+    }
+
+    final box = Songbox.getInstance();
+    List<Songmodel> dbSongs = [];
+    List<dynamic>? likedSongs = [];
     dbSongs = box.get("musics") as List<Songmodel>;
 
     //final temp = databaseSongs(dbSongs, songId);
@@ -63,9 +60,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           centerTitle: true,
           title: Text(
             'Now Playing',
-            style: TextStyle(
-              fontSize: 25.sp,color: Colors.black
-            ),
+            style: TextStyle(fontSize: 25.sp, color: Colors.black),
           ),
           backgroundColor: const Color.fromARGB(255, 146, 93, 199),
           automaticallyImplyLeading: false,
@@ -82,7 +77,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           ],
         ),
         body: player.builderCurrent(builder: (context, Playing? playing) {
-          final myAudio = find(widget.fullSongs, playing!.audio.assetAudioPath);
+          final myAudio = find(fullSongs, playing!.audio.assetAudioPath);
           final currentSong = dbSongs.firstWhere((element) =>
               element.id.toString() == myAudio.metas.id.toString());
 
@@ -208,9 +203,8 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                               borderRadius: BorderRadius.circular(50),
                               color: const Color(0xFFAB76E0),
                             ),
-                            child: StatefulBuilder(
-                              builder: (BuildContext context,
-                                  void Function(void Function()) setState) {
+                            child: BlocBuilder<FaviconBloc, FaviconState>(
+                              builder: (context, state) {
                                 return likedSongs!
                                         .where((element) =>
                                             element.id.toString() ==
@@ -230,30 +224,33 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                             ),
                                           );
                                           likedSongs = box.get("favourites");
-                                          setState(() {});
+                                          context.read<FaviconBloc>().add(
+                                              FaviconChangeEvent(
+                                                  iconData: Icons.favorite));
                                         },
                                         icon: Icon(
                                           Icons.favorite_border,
                                           size: 35.h.w,
-                                        ),
-                                      )
+                                        ))
                                     : IconButton(
                                         onPressed: () async {
-                                          setState(() {
-                                            likedSongs?.removeWhere((elemet) =>
-                                                elemet.id.toString() ==
-                                                currentSong.id.toString());
-                                            box.put("favourites", likedSongs!);
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  currentSong.songname! +
-                                                      " Removed from Favourites",
-                                                ),
+                                          likedSongs?.removeWhere((elemet) =>
+                                              elemet.id.toString() ==
+                                              currentSong.id.toString());
+                                          box.put("favourites", likedSongs!);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                currentSong.songname! +
+                                                    " Removed from Favourites",
                                               ),
-                                            );
-                                          });
+                                            ),
+                                          );
+                                          context.read<FaviconBloc>().add(
+                                              FaviconChangeEvent(
+                                                  iconData: Icons
+                                                      .favorite_outline_outlined));
                                         },
                                         icon: Icon(
                                           Icons.favorite,
@@ -265,18 +262,19 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                               },
                             ),
                           ),
-                          StatefulBuilder(
-                            builder: (BuildContext context,
-                                void Function(void Function()) setState) {
+                          BlocBuilder<FaviconBloc, FaviconState>(
+                            builder: (context, state) {
                               return !isLooping
                                   ? IconButton(
                                       onPressed: () {
-                                        setState(() {
-                                          isLooping = true;
-                                          player.setLoopMode(
-                                            LoopMode.single,
-                                          );
-                                        });
+                                        isLooping = true;
+                                        player.setLoopMode(
+                                          LoopMode.single,
+                                        );
+                                        context.read<FaviconBloc>().add(
+                                            FaviconChangeEvent(
+                                                iconData:
+                                                    Icons.repeat_rounded));
                                       },
                                       icon: Icon(
                                         Icons.repeat,
@@ -285,10 +283,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                     )
                                   : IconButton(
                                       onPressed: () {
-                                        setState(() {
-                                          isLooping = false;
-                                          player.setLoopMode(LoopMode.playlist);
-                                        });
+                                        isLooping = false;
+                                        player.setLoopMode(LoopMode.playlist);
+                                        context.read<FaviconBloc>().add(
+                                            FaviconChangeEvent(
+                                                iconData: Icons.repeat_one));
                                       },
                                       icon: Icon(
                                         Icons.repeat_one,

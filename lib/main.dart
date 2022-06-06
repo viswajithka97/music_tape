@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_tape/application/FavIcon/favicon_bloc.dart';
+import 'package:music_tape/application/FavouriteIconCubit/favouriteicon_cubit.dart';
 import 'package:music_tape/core/db_model.dart';
 
 import 'package:music_tape/splash_screen.dart';
@@ -32,7 +35,6 @@ Future<void> main() async {
   }
 
   runApp(const MyApp());
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -46,9 +48,22 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         useInheritedMediaQuery: true,
         builder: (child) {
-          return const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: splashScreen(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) {
+                  return FavouriteiconCubit();
+                },),
+              BlocProvider(
+                create: (context) {
+                  return FaviconBloc();
+                },
+              )
+            ],
+            child: const MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: splashScreen(),
+            ),
           );
         });
   }

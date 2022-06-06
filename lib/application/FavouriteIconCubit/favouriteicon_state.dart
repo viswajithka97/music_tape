@@ -4,6 +4,6 @@ part of 'favouriteicon_cubit.dart';
 abstract class FavouriteiconState {}
 
  class FavouriteiconInitial extends FavouriteiconState {
-   
-//  FavouriteiconInitial({required this.favIcon})
+  final IconData? favIcon;
+ FavouriteiconInitial({required this.favIcon});
 }
