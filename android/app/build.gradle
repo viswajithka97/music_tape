@@ -70,6 +70,7 @@ android {
            signingConfig signingConfigs.release
         }
     }
+    namespace 'com.example.music_tape'
 }
 
 flutter {

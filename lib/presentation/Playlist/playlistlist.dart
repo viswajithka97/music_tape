@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_tape/Pages/createplaylist.dart';
-import 'package:music_tape/database/db_model.dart';
+import 'package:music_tape/core/db_model.dart';
+import 'package:music_tape/presentation/My_Music/widgets/createplaylist.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable

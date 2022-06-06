@@ -1,5 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:music_tape/database/db_model.dart';
+import 'package:music_tape/core/db_model.dart';
 
 class OpenPlayer {
   List<Audio> fullSongs;

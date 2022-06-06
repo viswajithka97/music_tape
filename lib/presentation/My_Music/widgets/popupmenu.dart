@@ -1,7 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:music_tape/Pages/Refraction/playlistlist.dart';
-import 'package:music_tape/database/db_model.dart';
+import 'package:music_tape/core/db_model.dart';
+import 'package:music_tape/presentation/Playlist/playlistlist.dart';
 
 // ignore: must_be_immutable
 class MusicListMenu extends StatelessWidget {

@@ -5,13 +5,12 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:assets_audio_player/src/playable.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:music_tape/Pages/Refraction/drawer.dart';
-import 'package:music_tape/player/nowplayingscreen.dart';
-import 'package:music_tape/Pages/folders.dart';
-import 'package:music_tape/Pages/favourites.dart';
-import 'package:music_tape/Pages/mymusic..dart';
-
-import 'package:music_tape/Pages/playlistpage.dart';
+import 'package:music_tape/presentation/Drawer/drawer.dart';
+import 'package:music_tape/presentation/Now_Playing_Screen/nowplayingscreen.dart';
+import 'package:music_tape/presentation/Folders/folders.dart';
+import 'package:music_tape/presentation/Favourites/favourites.dart';
+import 'package:music_tape/presentation/My_Music/mymusic..dart';
+import 'package:music_tape/presentation/Playlist/playlistpage.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -42,7 +41,7 @@ class _HomeState extends State<Home> {
       ),
       const Folderslist(),
       const PlaylistPage(),
-       const Favourites(),
+      const Favourites(),
     ];
     return Scaffold(
       drawer: const drawer(),
@@ -79,8 +78,8 @@ class _HomeState extends State<Home> {
                       child: QueryArtworkWidget(
                           // ignore: prefer_const_constructors
                           nullArtworkWidget: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.asset('asset/images/new3.png')),
+                              borderRadius: BorderRadius.circular(5),
+                              child: Image.asset('asset/images/new3.png')),
                           id: int.parse(myAudio.metas.id!),
                           artworkBorder: BorderRadius.circular(5.0),
                           type: ArtworkType.AUDIO),

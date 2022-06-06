@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:music_tape/database/db_model.dart';
+import 'package:music_tape/core/db_model.dart';
 
 // ignore: camel_case_types
 class createPlaylist extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_tape/database/db_model.dart';
+import 'package:music_tape/core/db_model.dart';
 
 import 'package:music_tape/splash_screen.dart';
 
@@ -32,6 +32,7 @@ Future<void> main() async {
   }
 
   runApp(const MyApp());
+  
 }
 
 class MyApp extends StatelessWidget {

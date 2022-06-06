@@ -4,12 +4,11 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 // ignore: unnecessary_import
 import 'package:assets_audio_player/src/playable.dart';
 import 'package:flutter/material.dart';
-import 'package:music_tape/Pages/Refraction/popupmenu.dart';
-import 'package:music_tape/Pages/Refraction/search.dart';
-import 'package:music_tape/database/db_model.dart';
-import 'package:music_tape/home.dart';
-
-import 'package:music_tape/player/openplayer.dart';
+import 'package:music_tape/core/db_model.dart';
+import 'package:music_tape/presentation/My_Music/widgets/popupmenu.dart';
+import 'package:music_tape/presentation/Player/openplayer.dart';
+import 'package:music_tape/presentation/Search/search.dart';
+import 'package:music_tape/presentation/Home/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -125,7 +124,7 @@ class _MyMusicState extends State<MyMusic> {
                           borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(106, 217, 197, 218)),
                       child: ListTile(
-                          visualDensity: VisualDensity(
+                          visualDensity: const VisualDensity(
                             vertical: -3
                           ),
                           onTap: (() async {

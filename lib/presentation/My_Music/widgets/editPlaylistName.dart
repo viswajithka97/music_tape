@@ -2,8 +2,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:music_tape/database/db_model.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:music_tape/core/db_model.dart';
 
 // ignore: must_be_immutable
 class EditPlaylist extends StatelessWidget {

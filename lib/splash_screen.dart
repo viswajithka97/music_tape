@@ -1,11 +1,10 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:music_tape/database/db_model.dart';
-import 'package:music_tape/home.dart';
+import 'package:music_tape/core/db_model.dart';
+import 'package:music_tape/presentation/Home/home.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 // ignore: camel_case_types
 class splashScreen extends StatefulWidget {
@@ -14,14 +13,14 @@ class splashScreen extends StatefulWidget {
   @override
   State<splashScreen> createState() => _splashScreenState();
 }
-  List<Audio> fullSongs = [];
-  List<SongModel> fetchedSongs = [];
-  List<SongModel> allSongs = [];
-  List<Songmodel> dbSongs = [];
-  List<Songmodel> mappedSongs = [];
-  Set<String> gotPathset = {};
-  List<String> gotPath = [];
 
+List<Audio> fullSongs = [];
+List<SongModel> fetchedSongs = [];
+List<SongModel> allSongs = [];
+List<Songmodel> dbSongs = [];
+List<Songmodel> mappedSongs = [];
+Set<String> gotPathset = {};
+List<String> gotPath = [];
 
 // ignore: camel_case_types
 class _splashScreenState extends State<splashScreen> {
@@ -34,8 +33,6 @@ class _splashScreenState extends State<splashScreen> {
 
   final _audioQuery = OnAudioQuery();
   final box = Songbox.getInstance();
-
-
 
   requestStoragePermission() async {
     bool permissionStatus = await _audioQuery.permissionsStatus();
@@ -108,28 +105,28 @@ class _splashScreenState extends State<splashScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   SizedBox(
+                  SizedBox(
                     height: 150.h,
                   ),
 
-                   Text(
+                  Text(
                     'Music Tape',
                     style: TextStyle(
                         fontSize: 40.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 10.h,
                   ),
                   // ignore: avoid_unnecessary_containers
                   Container(
                     child: Image.asset('asset/images/splash.png'),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 30.h,
                   ),
-                   Text(
+                  Text(
                     'Feel the Music',
                     style: TextStyle(fontSize: 30.sp, color: Colors.white),
                   ),

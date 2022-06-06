@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_tape/Pages/Refraction/privacypolicy.dart';
-import 'package:music_tape/Pages/Refraction/terms&conditions.dart';
+import 'package:music_tape/presentation/Drawer/privacypolicy.dart';
+import 'package:music_tape/presentation/Drawer/terms&conditions.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

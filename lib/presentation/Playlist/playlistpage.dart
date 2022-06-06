@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_tape/Pages/Refraction/editPlaylistName.dart';
+import 'package:music_tape/core/db_model.dart';
+import 'package:music_tape/presentation/My_Music/widgets/editPlaylistName.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:music_tape/Pages/createplaylist.dart';
-import 'package:music_tape/Pages/customplaylist.dart';
-import 'package:music_tape/database/db_model.dart';
-import 'package:music_tape/Pages/playlistscreen.dart';
-import 'package:music_tape/Pages/recentlyplayed.dart';
+import 'package:music_tape/presentation/My_Music/widgets/createplaylist.dart';
+import 'package:music_tape/presentation/Playlist/customplaylist.dart';
+import 'package:music_tape/presentation/Playlist/playlistscreen.dart';
+import 'package:music_tape/presentation/Playlist/Recenly_Played/recentlyplayed.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({Key? key}) : super(key: key);
